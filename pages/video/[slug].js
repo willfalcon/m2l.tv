@@ -14,7 +14,7 @@ const video = props => {
 };
 
 export async function getStaticPaths() {
-  const res = await fetch(`http://movetolearnms.local/wp-json/m2l-video/v1/video-paths`);
+  const res = await fetch(`https://movetolearnms.org/wp-json/m2l-video/v1/video-paths`);
   const paths = await res.json();
 
   return {
@@ -26,7 +26,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context) {
-  const res = await fetch(`http://movetolearnms.local/wp-json/m2l-video/v1/video?slug=${context.params.slug}`);
+  const res = await fetch(`https://movetolearnms.org/wp-json/m2l-video/v1/video?slug=${context.params.slug}`);
   const video = await res.json();
 
   return {

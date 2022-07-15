@@ -13,7 +13,7 @@ const index = ({ videos }) => {
 };
 
 export async function getServerSideProps() {
-  const res = await fetch(`http://movetolearnms.local/wp-json/m2l-video/v1/top-videos/all`);
+  const res = await fetch(`https://movetolearnms.org/wp-json/m2l-video/v1/top-videos/all`);
   const data = await res.json();
 
   return {
