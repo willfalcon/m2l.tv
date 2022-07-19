@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import BigLabel from './BigLabel';
 import CatLabel from './CatLabel';
 import formatDuration from '../lib/formatDuration';
+import PlayButton from './PlayButton';
+import VideoModal from './VideoModal';
 
-const PrimaryVideo = ({ post_title, m2l_cat, video }) => {
+const PrimaryVideo = props => {
+  const { post_title, m2l_cat, video } = props;
+
+  const [isolateMode, setIsolateMode] = useState(false);
+
   return (
-    <Container className="primary-video">
+    <PrimaryVideoContainer className="primary-video">
       <div className="primary-video__info">
         <BigLabel className="primary-video__label">Watch Now</BigLabel>
         <h1 className="primary-video__title">{post_title}</h1>
         <CatLabel className="primary-video__category" rounded>
           {m2l_cat?.name}
         </CatLabel>
-
-        <span className="primary-video__duration">{formatDuration(video.videopress.duration)}</span>
+        <div>
+          <span className="primary-video__duration">{formatDuration(video.videopress.duration)}</span>
+          <PlayButton onClick={() => setIsolateMode(true)} />
+        </div>
       </div>
       <div className="primary-video__video-container">
         <div className="primary-video__wrap">
@@ -23,11 +31,12 @@ const PrimaryVideo = ({ post_title, m2l_cat, video }) => {
           </video>
         </div>
       </div>
-    </Container>
+      {isolateMode && <VideoModal {...props} onClose={() => setIsolateMode(false)} />}
+    </PrimaryVideoContainer>
   );
 };
 
-const Container = styled.main`
+const PrimaryVideoContainer = styled.main`
   display: flex;
   width: ${({ theme }) => theme.sizes.content}px;
   max-width: 100%;
@@ -36,11 +45,15 @@ const Container = styled.main`
   .primary-video {
     &__duration {
       color: ${({ theme }) => theme.pink};
-      display: block;
+      display: inline;
       margin-top: 2rem;
+      margin-right: 2rem;
     }
     &__info {
       flex: 0 0 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
     }
     &__video-container {
       flex-grow: 1;

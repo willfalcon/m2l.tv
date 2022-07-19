@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 
@@ -7,34 +7,47 @@ import logo from '../public/m2l-tv.png';
 import m2lLogo from '../public/move-to-learn.png';
 import Link from 'next/link';
 import theme from './theme';
+import useSiteContext from './SiteContext';
+
+import HeaderModals from './HeaderModals';
+import Search from './Search';
 
 const Header = () => {
   const aspect = 600 / 211;
   const height = 70;
   const width = aspect * height;
 
+  const { aboutNav, worksNav } = useSiteContext();
+  const [about, toggleAbout] = useState(false);
+  const [works, toggleWorks] = useState(false);
+  const [search, toggleSearch] = useState(false);
   // a = w / h    ah = w
   return (
-    <StyledHeader className="header">
-      <Link href="/">
-        <a style={{ display: 'block', flex: `0 0 ${width}px` }}>
-          <Image className="header-logo" src={logo} alt="M2L.tv" />
-        </a>
-      </Link>
-      <p className="header-tagline">The 5-minute energy reset for your Mississippi classroom</p>
-      <nav className="header-nav">
-        <div className="nav-link">
-          <a>How it works</a>
-        </div>
-        <div className="nav-link">
-          <a>About Move to Learn</a>
-        </div>
-      </nav>
+    <>
+      <StyledHeader className="header">
+        <Link href="/">
+          <a style={{ display: 'block', flex: `0 0 ${width}px` }}>
+            <Image className="header-logo" src={logo} alt="M2L.tv" />
+          </a>
+        </Link>
+        <p className="header-tagline">The 5-minute energy reset for your Mississippi classroom</p>
+        <nav className="header-nav">
+          <div className="nav-link">
+            <button onClick={() => toggleWorks(true)}>{worksNav}</button>
+          </div>
+          <div className="nav-link">
+            <button onClick={() => toggleAbout(true)}>{aboutNav}</button>
+          </div>
+        </nav>
 
-      <button className="search-button">
-        <FaSearch color="#ffffff" />
-      </button>
-    </StyledHeader>
+        <button className="search-button" onClick={() => toggleSearch(!search)}>
+          <FaSearch color="#ffffff" />
+        </button>
+      </StyledHeader>
+
+      <Search search={search} toggleSearch={toggleSearch} logoWidth={width} />
+      <HeaderModals about={about} toggleAbout={toggleAbout} works={works} toggleWorks={toggleWorks} />
+    </>
   );
 };
 
@@ -59,6 +72,14 @@ const StyledHeader = styled.header`
     padding: 2rem;
     transform: skew(-12deg);
     text-transform: uppercase;
+    button {
+      background: none;
+      border: 0;
+      text-transform: inherit;
+      color: inherit;
+      font-size: inherit;
+      cursor: pointer;
+    }
     > * {
       transform: skew(12deg);
     }
@@ -80,6 +101,7 @@ const StyledHeader = styled.header`
     display: block;
     width: 80px;
     margin-left: -8px;
+
     svg {
       width: 30px;
       height: 30px;

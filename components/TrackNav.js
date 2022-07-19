@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { HiArrowNarrowRight, HiArrowNarrowLeft } from 'react-icons/hi';
 import classNames from 'classnames';
+import spin from './spin';
 
 const TrackNav = ({ className, navDisabled, swiper }) => {
   return (
@@ -36,13 +37,30 @@ const NavButton = styled.button`
   position: absolute;
   top: 47%;
   transform: translateY(-50%);
-  background: ${({ theme }) => theme.gradient};
   width: 50px;
   height: 50px;
   border-radius: 50%;
   border: 0;
   z-index: 3;
+  background: none;
+  padding: 0;
   cursor: pointer;
+  &::before {
+    content: '';
+    background: ${({ theme }) => theme.gradient};
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    position: absolute;
+    /* transition: 0.25s; */
+  }
+  :hover::before {
+    animation: ${spin} 2s linear infinite;
+  }
+
   &[aria-disabled='true'] {
     opacity: 0.5;
   }
@@ -50,6 +68,8 @@ const NavButton = styled.button`
     color: white;
     width: 90%;
     height: 90%;
+    z-index: 1;
+    position: relative;
   }
   &.track-next {
     right: 10px;
