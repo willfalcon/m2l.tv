@@ -11,7 +11,7 @@ import useSiteContext from './SiteContext';
 import { media } from './theme';
 
 const PrimaryVideo = props => {
-  const { post_title, m2l_cat, video } = props;
+  const { post_title, m2l_cat, video, post_name } = props;
 
   const { isolate, setIsolate } = useSiteContext();
 
@@ -30,7 +30,7 @@ const PrimaryVideo = props => {
       </CatLabel>
       <div className="primary-video__meta">
         <span className="primary-video__duration">{formatDuration(video.videopress.duration)}</span>
-        <PlayButton onClick={() => setIsolate(props)} />
+        <PlayButton href={`/video/${post_name}`} />
       </div>
 
       <div className="primary-video__video-container">

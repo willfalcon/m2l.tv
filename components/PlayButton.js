@@ -3,16 +3,19 @@ import styled from 'styled-components';
 import { IoPlaySharp } from 'react-icons/io5';
 import classNames from 'classnames';
 import spin from './spin';
+import Link from 'next/link';
 
-const PlayButton = ({ className, onClick }) => {
+const PlayButton = ({ className, href }) => {
   return (
-    <ButtonStyles className={classNames('play-button', className)} onClick={onClick}>
-      Play <IoPlaySharp />
-    </ButtonStyles>
+    <Link href={href}>
+      <ButtonStyles className={classNames('play-button', className)}>
+        Play <IoPlaySharp />
+      </ButtonStyles>
+    </Link>
   );
 };
 
-const ButtonStyles = styled.button`
+const ButtonStyles = styled.a`
   display: inline-flex;
   align-items: center;
   justify-content: center;
