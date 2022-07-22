@@ -10,7 +10,7 @@ const Modal = ({ children, onClose, className }) => {
       <Backdrop className={'modal-backdrop'} onClick={onClose} />
       <StyledModal className={'modal'}>
         {children}
-        <CloseButton className="modal__close" onClick={onClose} />
+        <CloseButton className="modal__close" />
       </StyledModal>
     </ModalWrap>
   );

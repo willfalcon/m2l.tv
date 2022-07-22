@@ -6,16 +6,18 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import BigLabel from './BigLabel';
-import Link from 'next/link';
+import BigLabel from '../BigLabel';
+
 import TrackNav from './TrackNav';
-import useViewportSizes from '../lib/useViewportSizes';
+import useViewportSizes from '../../lib/useViewportSizes';
 import { rgba } from 'polished';
 import TrackSlide from './TrackSlide';
+import { media } from '../theme';
 
 const VideoTrack = ({ className, videos, label, description, name, setIsolate }) => {
   const [navDisabled, setNavDisabled] = useState([true, false]);
   const [width, height, update] = useViewportSizes();
+  const mobile = width < 768;
   const [swiperRef, setSwiperRef] = useState(null);
 
   const [trackHeight, setTrackHeight] = useState(null);
@@ -38,7 +40,7 @@ const VideoTrack = ({ className, videos, label, description, name, setIsolate })
       </div>
       <Swiper
         className="video-track__list"
-        spaceBetween={50}
+        spaceBetween={mobile ? 0 : 50}
         slidesPerView={3}
         onSlideChange={swiper => {
           if (swiper.isBeginning) {
@@ -64,23 +66,32 @@ const VideoTrack = ({ className, videos, label, description, name, setIsolate })
   );
 };
 
-const Button = styled.button`
-  color: white;
-  text-decoration: none;
-  background: none;
-  border: 0;
-  cursor: pointer;
-  .slide-video {
-    &__cat {
-      color: ${({ theme }) => theme.pink};
-    }
-  }
-`;
-
 const TrackWrapper = styled.div`
   position: relative;
   overflow: hidden;
-
+  margin-bottom: 3rem;
+  @media (min-width: 1500px) {
+    ::before {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 100px;
+      background: ${({ theme }) => `linear-gradient(to right, ${rgba(theme.black, 0)}, ${rgba(theme.black, 1)})`};
+      right: 0;
+      top: 0;
+      z-index: 2;
+    }
+    ::after {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 100px;
+      background: ${({ theme }) => `linear-gradient(to left, ${rgba(theme.black, 0)}, ${rgba(theme.black, 1)})`};
+      left: 0;
+      top: 0;
+      z-index: 2;
+    }
+  }
   .video-track {
     &__header {
       width: ${({ theme }) => theme.sizes.content}px;
@@ -89,25 +100,34 @@ const TrackWrapper = styled.div`
       padding: 0 2rem;
     }
     &__label {
-      margin-bottom: 2rem;
       display: inline-block;
+      ${media.break`
+        margin-bottom: 2rem;
+      `}
     }
     &__description {
-      display: inline;
-      margin-left: 2rem;
       color: ${({ theme }) => theme.neon};
+      ${media.break`
+        display: inline;
+        margin-left: 2rem;
+      `}
     }
     &__list {
       overflow: visible;
       /* width: ${({ theme }) => theme.sizes.content}px; */
-      width: calc(100% - 120px);
-      @media (min-width: 1500px) {
-        width: 1200px;
-      }
+      width: 100%;
+      padding: 0.5rem;
       max-width: 100%;
       margin: 0 auto;
-      padding: 2rem;
-      height: ${({ trackHeight }) => (trackHeight ? `${trackHeight}px` : 'auto')};
+
+      ${media.break`
+        height: ${({ trackHeight }) => (trackHeight ? `${trackHeight}px` : 'auto')};
+        width: calc(100% - 120px);
+        padding: 2rem;
+        @media (min-width: 1500px) {
+          width: 1200px;
+        }
+      `}
       &::after {
         content: '';
         position: absolute;
@@ -117,6 +137,9 @@ const TrackWrapper = styled.div`
         right: -60px;
         top: 0;
         z-index: 2;
+        @media (min-width: 1500px) {
+          display: none;
+        }
       }
       &::before {
         content: '';
@@ -127,6 +150,9 @@ const TrackWrapper = styled.div`
         left: -60px;
         top: 0;
         z-index: 2;
+        @media (min-width: 1500px) {
+          display: none;
+        }
       }
     }
   }

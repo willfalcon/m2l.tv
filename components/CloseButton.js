@@ -1,17 +1,20 @@
 import classNames from 'classnames';
+import Link from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
 
 const CloseButton = ({ className, onClick }) => {
   return (
-    <Button className={classNames('close-button', className)} onClick={onClick}>
-      <span />
-      <span />
-    </Button>
+    <Link href="/">
+      <Button className={classNames('close-button', className)}>
+        <span />
+        <span />
+      </Button>
+    </Link>
   );
 };
 
-const Button = styled.button`
+const Button = styled.a`
   width: 40px;
   height: 40px;
   background: ${({ theme }) => theme.gradient};

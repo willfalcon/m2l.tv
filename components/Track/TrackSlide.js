@@ -1,42 +1,38 @@
+import Link from 'next/link';
 import { rgba } from 'polished';
 import React, { useState } from 'react';
 // import { animated, useSpring, useTransition } from 'react-spring';
 import styled from 'styled-components';
 // import { SwiperSlide } from 'swiper/react';
 // import theme from './theme';
-import formatDuration from '../lib/formatDuration';
-import CatLabel from './CatLabel';
-import PlayButton from './PlayButton';
+import formatDuration from '../../lib/formatDuration';
+import CatLabel from '../CatLabel';
+import PlayButton from '../PlayButton';
+import { media } from '../theme';
 
-const TrackSlide = ({ className, setIsolate, id, video, post_title, m2l_cat }) => {
+const TrackSlide = ({ className, setIsolate, id, video, post_title, post_name, m2l_cat }) => {
   return (
-    <Button
-      className="slide-video"
-      // hover={hover}
-      onClick={() => setIsolate({ id, video, post_title, m2l_cat })}
-    >
-      <img className="slide-video__poster" src={video.videopress?.poster} alt={post_title} />
-      <div className="slide-video__content-wrap">
-        <h3 className="slide-video__name">{post_title}</h3>
-        <div className="slide-video__info">
-          <CatLabel className="slide-video__cat">{m2l_cat?.name}</CatLabel>
-          <p className="slide-video__duration">{formatDuration(video.videopress?.duration)}</p>
-          {/* <PlayButton className="slide-video__play-button" /> */}
-        </div>
-      </div>
-      {/* <SlideModal
-        className="slide-video__expanded"
+    <Link href={`/video/${post_name}`}>
+      <Button
+        className="slide-video"
+        // hover={hover}
         onClick={() => setIsolate({ id, video, post_title, m2l_cat })}
-        onMouseLeave={() => setHover(false)}
       >
         <img className="slide-video__poster" src={video.videopress?.poster} alt={post_title} />
-        <h3 className="slide-video__name">{post_title}</h3>
-      </SlideModal> */}
-    </Button>
+        <div className="slide-video__content-wrap">
+          <h3 className="slide-video__name">{post_title}</h3>
+          <div className="slide-video__info">
+            <CatLabel className="slide-video__cat">{m2l_cat?.name}</CatLabel>
+            <p className="slide-video__duration">{formatDuration(video.videopress?.duration)}</p>
+            {/* <PlayButton className="slide-video__play-button" /> */}
+          </div>
+        </div>
+      </Button>
+    </Link>
   );
 };
 
-const Button = styled.button`
+const Button = styled.a`
   color: white;
   text-decoration: none;
   background: none;
@@ -52,29 +48,30 @@ const Button = styled.button`
     &__content-wrap {
       position: relative;
       transition: 0.25s;
-      height: 40px;
-      overflow: hidden;
+      ${media.break`
+        overflow: hidden;
+        height: 40px;
+      `}
     }
     &__name {
-      position: absolute;
       display: block;
-      /* width: 100%; */
-      transition: 0.25s;
-      /* left: 50%; */
-      top: 0;
-      /* transform: translateX(-50%); */
-      text-align: left;
       margin: 0.5rem;
-      /* margin-right: auto;
-      margin-left: ${({ hover }) => (hover ? '0px' : 'auto')}; */
+      ${media.break`
+        transition: 0.25s;
+        position: absolute;
+        top: 0; 
+        text-align: left;
+      `}
     }
     &__info {
-      display: flex;
       overflow: hidden;
       transition: 0.25s;
       transition-delay: 0.25s;
-
       padding-top: 40px;
+      display: none;
+      ${media.break`
+        display: flex;
+      `}
     }
     &__cat {
       margin: 0;

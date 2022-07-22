@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { HiArrowNarrowRight, HiArrowNarrowLeft } from 'react-icons/hi';
 import classNames from 'classnames';
-import spin from './spin';
+import spin from '../spin';
+
+import { media } from '../theme';
 
 const TrackNav = ({ className, navDisabled, swiper }) => {
   return (
@@ -35,7 +37,7 @@ const TrackNav = ({ className, navDisabled, swiper }) => {
 
 const NavButton = styled.button`
   position: absolute;
-  top: 47%;
+  top: 55%;
   transform: translateY(-50%);
   width: 50px;
   height: 50px;
@@ -45,6 +47,10 @@ const NavButton = styled.button`
   background: none;
   padding: 0;
   cursor: pointer;
+  display: none;
+  ${media.break`
+    display: block;
+  `}
   &::before {
     content: '';
     background: ${({ theme }) => theme.gradient};

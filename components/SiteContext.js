@@ -3,8 +3,7 @@ import React, { useContext, useState } from 'react';
 const SiteContext = React.createContext();
 
 const SiteContextProvider = ({ children, data }) => {
-  const [isolate, setIsolate] = useState(null);
-  return <SiteContext.Provider value={{ ...data, isolate, setIsolate }}>{children}</SiteContext.Provider>;
+  return <SiteContext.Provider value={{ ...data }}>{children}</SiteContext.Provider>;
 };
 
 export default function useSiteContext() {

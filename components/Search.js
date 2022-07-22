@@ -23,7 +23,7 @@ const Search = ({ search, toggleSearch, logoWidth }) => {
       setNoResults(false);
       // setLoading(true);
       if (searchTerm) {
-        const res = await fetch(`http://movetolearnms.local/wp-json/m2l-video/v1/search?term=${searchTerm}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/wp-json/m2l-video/v1/search?term=${searchTerm}`);
         const data = await res.json();
 
         if (data.length) {

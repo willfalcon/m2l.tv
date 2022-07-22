@@ -1,37 +1,41 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useVideo } from 'react-use';
+
 import BigLabel from './BigLabel';
 import CatLabel from './CatLabel';
 import formatDuration from '../lib/formatDuration';
 import PlayButton from './PlayButton';
 import VideoModal from './VideoModal';
+import useSiteContext from './SiteContext';
+import { media } from './theme';
 
 const PrimaryVideo = props => {
   const { post_title, m2l_cat, video } = props;
 
-  const [isolateMode, setIsolateMode] = useState(false);
+  const { isolate, setIsolate } = useSiteContext();
+
+  const [videoHtml, state, controls, ref] = useVideo(
+    <video className="primary-video__video" width={video.width} height={video.height} controls poster={video.videopress.poster}>
+      <source src={video.videopress.original} type="video/mp4" />
+    </video>
+  );
 
   return (
     <PrimaryVideoContainer className="primary-video">
-      <div className="primary-video__info">
-        <BigLabel className="primary-video__label">Watch Now</BigLabel>
-        <h1 className="primary-video__title">{post_title}</h1>
-        <CatLabel className="primary-video__category" rounded>
-          {m2l_cat?.name}
-        </CatLabel>
-        <div>
-          <span className="primary-video__duration">{formatDuration(video.videopress.duration)}</span>
-          <PlayButton onClick={() => setIsolateMode(true)} />
-        </div>
+      <BigLabel className="primary-video__label">Watch Now</BigLabel>
+      <h1 className="primary-video__title">{post_title}</h1>
+      <CatLabel className="primary-video__category" rounded>
+        {m2l_cat?.name}
+      </CatLabel>
+      <div className="primary-video__meta">
+        <span className="primary-video__duration">{formatDuration(video.videopress.duration)}</span>
+        <PlayButton onClick={() => setIsolate(props)} />
       </div>
+
       <div className="primary-video__video-container">
-        <div className="primary-video__wrap">
-          <video className="primary-video__video" width={video.width} height={video.height} controls poster={video.videopress.poster}>
-            <source src={video.videopress.original} type="video/mp4" />
-          </video>
-        </div>
+        <div className="primary-video__wrap">{videoHtml}</div>
       </div>
-      {isolateMode && <VideoModal {...props} onClose={() => setIsolateMode(false)} />}
     </PrimaryVideoContainer>
   );
 };
@@ -42,7 +46,50 @@ const PrimaryVideoContainer = styled.main`
   max-width: 100%;
   margin: 0 auto;
   padding: 8rem 2rem;
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+
+  grid-template-areas:
+    'title label'
+    'video video'
+    'meta cat';
+
+  ${media.break`
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto auto auto 1fr;
+    gap: 1rem;
+    grid-template-areas:
+      'label video'
+      'title video'
+      'cat video'
+      'meta video';
+  `}
+  align-items: start;
+  justify-items: start;
   .primary-video {
+    &__label {
+      grid-area: label;
+      justify-self: end;
+      ${media.break`
+        justify-self: start;
+      `}
+    }
+    &__title {
+      grid-area: title;
+    }
+    &__category {
+      grid-area: cat;
+      justify-self: end;
+      ${media.break`
+        justify-self: start;
+      `}
+    }
+    &__meta {
+      grid-area: meta;
+    }
+
     &__duration {
       color: ${({ theme }) => theme.pink};
       display: inline;
@@ -57,6 +104,8 @@ const PrimaryVideoContainer = styled.main`
     }
     &__video-container {
       flex-grow: 1;
+      grid-area: video;
+      width: 100%;
     }
     &__wrap {
       position: relative;

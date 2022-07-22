@@ -6,7 +6,7 @@ import { FaSearch } from 'react-icons/fa';
 import logo from '../public/m2l-tv.png';
 import m2lLogo from '../public/move-to-learn.png';
 import Link from 'next/link';
-import theme from './theme';
+import theme, { media } from './theme';
 import useSiteContext from './SiteContext';
 
 import HeaderModals from './HeaderModals';
@@ -24,13 +24,15 @@ const Header = () => {
   // a = w / h    ah = w
   return (
     <>
-      <StyledHeader className="header">
+      <StyledHeader className="header" logoWidth={width}>
         <Link href="/">
-          <a style={{ display: 'block', flex: `0 0 ${width}px` }}>
+          <a className="header-logo-link" style={{ display: 'block', flex: `0 0 ${width}px` }}>
             <Image className="header-logo" src={logo} alt="M2L.tv" />
           </a>
         </Link>
-        <p className="header-tagline">The 5-minute energy reset for your Mississippi classroom</p>
+        <div className="header-tagline">
+          <p className="header-tagline__text">The 5-minute energy reset for your Mississippi classroom</p>
+        </div>
         <nav className="header-nav">
           <div className="nav-link">
             <button onClick={() => toggleWorks(true)}>{worksNav}</button>
@@ -55,13 +57,40 @@ const StyledHeader = styled.header`
   display: flex;
   height: 82px;
   align-items: end;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 71px;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    'logo tagline tagline'
+    'nav nav search';
+
+  ${media.break`
+    grid-template-columns: ${({ logoWidth }) => `${logoWidth}px 1fr auto 71px`};
+    grid-template-areas: 
+      "logo tagline nav search";
+  `}
+  justify-items: end;
+
+  .header-logo-link {
+    grid-area: logo;
+  }
+
   .header-tagline {
     color: ${({ theme }) => theme.neon};
     font-size: 1.4rem;
     flex-grow: 1;
+    margin-left: 1rem;
+    justify-self: start;
+    grid-area: tagline;
   }
 
   .header-nav {
+    margin-left: auto;
+    justify-self: end;
+    grid-area: nav;
+
+    display: flex;
   }
   .nav-link {
     color: ${({ theme }) => theme.neon};
@@ -106,6 +135,8 @@ const StyledHeader = styled.header`
       width: 30px;
       height: 30px;
     }
+
+    grid-area: search;
   }
 `;
 

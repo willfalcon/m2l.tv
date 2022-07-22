@@ -1,35 +1,24 @@
 import React from 'react';
 import PrimaryVideo from '../../components/PrimaryVideo';
-import VideoTrack from '../../components/VideoTrack';
+import VideoTrack from '../../components/Track/VideoTrack';
+import VideoModal from '../../components/VideoModal';
 
-const video = props => {
-  return (
-    <>
-      <PrimaryVideo {...props} />
-      <VideoTrack videos={props.related} label={props.m2l_cat?.name} description={props.m2l_cat?.description} />
-    </>
-  );
+export default props => {
+  const { allVideos, slug } = props;
+  // console.log(allVideos);
+  const video = allVideos
+    .filter(cat => {
+      return cat.videos.some(video => video.post_name === slug);
+    })[0]
+    .videos.find(video => video.post_name === slug);
+  console.log(video);
+
+  // return <></>;
+  return <VideoModal {...video} isolate={true} />;
 };
 
-export async function getStaticPaths() {
-  const res = await fetch(`${process.env.API_BASE}/wp-json/m2l-video/v1/video-paths`);
-  const paths = await res.json();
-
+export async function getServerSideProps(context) {
   return {
-    paths: paths.map(path => ({
-      params: { slug: path.slug, id: path.id },
-    })),
-    fallback: false,
+    props: { ...context.query },
   };
 }
-
-export async function getStaticProps(context) {
-  const res = await fetch(`${process.env.API_BASE}/wp-json/m2l-video/v1/video?slug=${context.params.slug}`);
-  const video = await res.json();
-
-  return {
-    props: video,
-  };
-}
-
-export default video;
