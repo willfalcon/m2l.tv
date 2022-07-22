@@ -34,12 +34,16 @@ const Header = () => {
           <p className="header-tagline__text">The 5-minute energy reset for your Mississippi classroom</p>
         </div>
         <nav className="header-nav">
-          <div className="nav-link">
-            <button onClick={() => toggleWorks(true)}>{worksNav}</button>
-          </div>
-          <div className="nav-link">
-            <button onClick={() => toggleAbout(true)}>{aboutNav}</button>
-          </div>
+          <Link href="/how-it-works">
+            <a className="nav-link">
+              <span>{worksNav}</span>
+            </a>
+          </Link>
+          <Link href="/about">
+            <a className="nav-link">
+              <span>{aboutNav}</span>
+            </a>
+          </Link>
         </nav>
 
         <button className="search-button" onClick={() => toggleSearch(!search)}>
@@ -101,6 +105,8 @@ const StyledHeader = styled.header`
     padding: 2rem;
     transform: skew(-12deg);
     text-transform: uppercase;
+    text-decoration: none;
+
     button {
       background: none;
       border: 0;
