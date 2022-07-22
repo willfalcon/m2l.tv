@@ -1,29 +1,31 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi';
 import styled from 'styled-components';
 import formatDuration from '../lib/formatDuration';
 import CatLabel from './CatLabel';
 
-const SearchResults = ({ logoWidth, results, setIsolate, noResults }) => {
+const SearchResults = ({ logoWidth, results, setIsolate, noResults, toggleSearch }) => {
   return (
     <ResultsList logoWidth={logoWidth}>
       {noResults && <h3 className="no-results">No results found.</h3>}
       {results.map(result => (
         <li className="result" key={result.id}>
-          <button
-            className="result__button"
-            onClick={() => {
-              toggleSearch(false);
-              setIsolate(result);
-            }}
-          >
-            <div className="result__poster-wrapper">
-              <img className="result__poster" src={result.video.videopress.poster} alt={result.post_title} />
-            </div>
-            <h3 className="result__name">{result.post_title}</h3>
-            <CatLabel className="result__cat">{result.m2l_cat.name}</CatLabel>
-            <span className="result__duration">{formatDuration(result.video.videopress.duration)}</span>
-          </button>
+          <Link href={`/video/${result.post_name}`}>
+            <a
+              className="result__button"
+              onClick={() => {
+                toggleSearch(false);
+              }}
+            >
+              <div className="result__poster-wrapper">
+                <img className="result__poster" src={result.video.videopress.poster} alt={result.post_title} />
+              </div>
+              <h3 className="result__name">{result.post_title}</h3>
+              <CatLabel className="result__cat">{result.m2l_cat.name}</CatLabel>
+              <span className="result__duration">{formatDuration(result.video.videopress.duration)}</span>
+            </a>
+          </Link>
         </li>
       ))}
     </ResultsList>
@@ -65,6 +67,7 @@ const ResultsList = styled.ul`
       justify-items: start;
       align-items: center;
       align-content: center;
+      text-decoration: none;
     }
     &__poster-wrapper {
       grid-row: 1 / 3;

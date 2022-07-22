@@ -62,12 +62,15 @@ const Search = ({ search, toggleSearch, logoWidth }) => {
                     placeholder="Search Here"
                   />
                 </SearchBar>
-                {loading && (
-                  <Loader className="search-loader">
-                    <BiLoaderAlt />
-                  </Loader>
+                {results && (
+                  <SearchResults
+                    logoWidth={logoWidth}
+                    results={results}
+                    setIsolate={setIsolate}
+                    noResults={noResults}
+                    toggleSearch={toggleSearch}
+                  />
                 )}
-                {results && <SearchResults logoWidth={logoWidth} results={results} setIsolate={setIsolate} noResults={noResults} />}
               </SearchWrap>
             )}
           </>
