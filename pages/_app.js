@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import App from 'next/app';
@@ -17,18 +17,28 @@ Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangError', () => NProgress.done());
 
 function MyApp(props) {
-  const { Component, pageProps, topVideos, allVideos, other } = props;
+  const { Component, pageProps, topVideos, allVideos, other, openedVideo } = props;
   const [isolate, setIsolate] = useState(null);
+  const [videoModal, toggleVideoModal] = useState(false);
+
+  useEffect(() => {
+    if (openedVideo) {
+      setIsolate(openedVideo);
+      toggleVideoModal(true);
+    }
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
-      <SiteContextProvider data={{ ...other, isolate, setIsolate }}>
+      <SiteContextProvider data={{ ...other, isolate, setIsolate, videoModal, toggleVideoModal }}>
         <Wrapper>
           <>
             <PrimaryVideo {...topVideos[0]} />
-            <VideoTrack videos={topVideos.slice(1)} label="Top Videos" setIsolate={setIsolate} />
+            <VideoTrack videos={topVideos.slice(1)} label="Top Videos" />
             {allVideos.map(track => (
-              <VideoTrack key={track.term_id} {...track} setIsolate={setIsolate} />
+              <VideoTrack key={track.term_id} {...track} />
             ))}
+            <VideoModal />
           </>
           <Component {...pageProps} allVideos={allVideos} />
         </Wrapper>
@@ -43,13 +53,24 @@ MyApp.getInitialProps = async appContext => {
   //TODO this is called in client when we Link to any page with it, and API_BASE isn't accessible in browser, so maybe try an api route?
 
   const allVideosRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/wp-json/m2l-video/v1/videos`);
-  const data = await allVideosRes.json();
+  const { topVideos, allVideos, other } = await allVideosRes.json();
+
+  const videoSlug = appContext.ctx.query.video || null;
+
+  const openedVideo = videoSlug
+    ? allVideos
+        .filter(cat => {
+          return cat.videos.some(video => video.post_name === videoSlug);
+        })[0]
+        .videos.find(video => video.post_name === videoSlug)
+    : null;
 
   return {
     ...appProps,
-    topVideos: shuffle(data.topVideos),
-    allVideos: data.allVideos,
-    other: data.other,
+    topVideos: shuffle(topVideos),
+    allVideos: allVideos,
+    other: other,
+    openedVideo,
   };
 };
 

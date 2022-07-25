@@ -1,20 +1,28 @@
 import classNames from 'classnames';
 import Link from 'next/link';
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const CloseButton = ({ className, onClick }) => {
-  return (
-    <Link href="/">
-      <Button className={classNames('close-button', className)}>
+  if (onClick) {
+    return (
+      <Button className={classNames('close-button', className)} onClick={onClick}>
         <span />
         <span />
       </Button>
+    );
+  }
+  return (
+    <Link href="/">
+      <ButtonLink className={classNames('close-button close-button--link', className)}>
+        <span />
+        <span />
+      </ButtonLink>
     </Link>
   );
 };
 
-const Button = styled.a`
+const ButtonStyles = css`
   width: 40px;
   height: 40px;
   background: ${({ theme }) => theme.gradient};
@@ -51,6 +59,13 @@ const Button = styled.a`
       transform: translate(-50%, -50%) rotate(-45deg);
     }
   }
+`;
+const Button = styled.a`
+  ${ButtonStyles}
+`;
+
+const ButtonLink = styled.a`
+  ${ButtonStyles}
 `;
 
 export default CloseButton;

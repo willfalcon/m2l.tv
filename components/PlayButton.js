@@ -4,18 +4,19 @@ import { IoPlaySharp } from 'react-icons/io5';
 import classNames from 'classnames';
 import spin from './spin';
 import Link from 'next/link';
+import { animated } from 'react-spring';
 
-const PlayButton = ({ className, href }) => {
+const PlayButton = ({ className, href, styles }) => {
   return (
-    <Link href={href}>
-      <ButtonStyles className={classNames('play-button', className)}>
+    <ButtonStyles className={classNames('play-button', className)} style={styles}>
+      <span>
         Play <IoPlaySharp />
-      </ButtonStyles>
-    </Link>
+      </span>
+    </ButtonStyles>
   );
 };
 
-const ButtonStyles = styled.a`
+const ButtonStyles = styled(animated.a)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -44,8 +45,18 @@ const ButtonStyles = styled.a`
     top: -75%;
 
     border-radius: 50%;
-    z-index: -1;
+    z-index: 0;
     transform-origin: center;
+  }
+  span {
+    position: relative;
+    z-index: 0;
+    transition: 0.5s ease-out;
+    display: flex;
+    align-items: center;
+  }
+  :hover span {
+    transform: scale(1.1);
   }
   :hover::before {
     animation: ${spin} 2s linear infinite;

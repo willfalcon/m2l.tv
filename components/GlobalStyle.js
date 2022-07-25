@@ -53,7 +53,7 @@ const GlobalStyle = createGlobalStyle`
     background: ${({ theme }) => theme.gradient};
   }
   .spinner {
-    /* display: none; */
+    display: none;
     width: 50px;
     height: 50px;
     transform: rotate(-90deg);

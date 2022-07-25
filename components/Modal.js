@@ -2,54 +2,40 @@ import classNames from 'classnames';
 import { rgba } from 'polished';
 import React from 'react';
 import styled from 'styled-components';
+import { animated, useTransition } from 'react-spring';
+
 import CloseButton from './CloseButton';
 
-const Modal = ({ children, onClose, className }) => {
+const Modal = ({ children, onClose, className, open }) => {
+  const transition = useTransition(open, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
+
+  const backdropTransition = useTransition(open, {
+    from: { opacity: 0 },
+    enter: { opacity: 0.65 },
+    leave: { opacity: 0 },
+  });
   return (
-    <ModalWrap>
-      <Backdrop className={'modal-backdrop'} onClick={onClose} />
-      <StyledModal className={'modal'}>
-        {children}
-        <CloseButton className="modal__close" />
-      </StyledModal>
-    </ModalWrap>
+    <>
+      {backdropTransition((styles, item) => item && <Backdrop style={styles} className={'modal-backdrop'} onClick={onClose} />)}
+
+      {transition(
+        (styles, item) =>
+          item && (
+            <StyledModal className={'modal'} style={styles}>
+              {children}
+              <CloseButton className="modal__close" onClick={onClose} />
+            </StyledModal>
+          )
+      )}
+    </>
   );
 };
 
-const ModalWrap = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  &.enter {
-    opacity: 0;
-  }
-  &.enter-active {
-    opacity: 1;
-    /* z-index: 2; */
-  }
-  &.enter-done {
-    opacity: 1;
-  }
-  &.exit {
-    opacity: 1;
-  }
-  &.exit-active {
-    opacity: 0;
-    /* z-index: 1; */
-  }
-  &.exit-done {
-    opacity: 0;
-  }
-  &.enter-active,
-  &.exit-active {
-    transition: 0.5s;
-  }
-`;
-
-export const Backdrop = styled.div`
+export const Backdrop = styled(animated.div)`
   position: fixed;
   width: 100%;
   height: 100%;
@@ -57,19 +43,18 @@ export const Backdrop = styled.div`
   left: 0;
   background: ${({ theme }) => rgba(theme.black, 0.75)};
   z-index: 2;
-  transition: 0.5s;
 `;
 
-const StyledModal = styled.div`
+const StyledModal = styled(animated.div)`
   display: flex;
   align-items: center;
-  transition: 0.5s;
-  position: absolute;
+
+  position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  background: ${rgba('white', 0.85)};
+  background: ${rgba('white', 1)};
   color: ${({ theme }) => theme.black};
   width: 800px;
   max-width: 100%;

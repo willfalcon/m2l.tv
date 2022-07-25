@@ -1,35 +1,32 @@
-import React, { useState } from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import Modal, { Backdrop } from './Modal';
+import { useRouter } from 'next/router';
+import React from 'react';
+
+import Modal from './Modal';
 import useSiteContext from './SiteContext';
+
 const HeaderModals = ({ about, works, toggleAbout, toggleWorks }) => {
   const { aboutContent, worksContent } = useSiteContext();
-
+  const router = useRouter();
   return (
     <>
-      <TransitionGroup component={null}>
-        {/* <CSSTransition key={backdrop} timeout={500}>
-          <>{backdrop && <Backdrop />}</>
-        </CSSTransition> */}
-        <CSSTransition key={about} timeout={500}>
-          <>
-            {about && (
-              <Modal onClose={() => toggleAbout(false)}>
-                <div dangerouslySetInnerHTML={{ __html: aboutContent }} />
-              </Modal>
-            )}
-          </>
-        </CSSTransition>
-        <CSSTransition key={works} timeout={500}>
-          <>
-            {works && (
-              <Modal onClose={() => toggleWorks(false)}>
-                <div dangerouslySetInnerHTML={{ __html: worksContent }} />
-              </Modal>
-            )}
-          </>
-        </CSSTransition>
-      </TransitionGroup>
+      <Modal
+        open={about}
+        onClose={() => {
+          toggleAbout(false);
+          router.push('/', undefined, { shallow: true });
+        }}
+      >
+        <div dangerouslySetInnerHTML={{ __html: aboutContent }} />
+      </Modal>
+      <Modal
+        open={works}
+        onClose={() => {
+          toggleWorks(false);
+          router.push('/', undefined, { shallow: true });
+        }}
+      >
+        <div dangerouslySetInnerHTML={{ __html: worksContent }} />
+      </Modal>
     </>
   );
 };

@@ -3,21 +3,27 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { VscChromeClose } from 'react-icons/vsc';
+import { animated, useTransition } from 'react-spring';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
 import { useVideo } from 'react-use';
 import logo from '../public/m2l-tv.png';
 import CloseButton from './CloseButton';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import fade from './Fade';
 import useViewportSizes from '../lib/useViewportSizes';
 import { useMeasure } from 'react-use';
 import CountdownTimer from './CountdownTimer';
+import useSiteContext from './SiteContext';
+import { useRouter } from 'next/router';
+import CatLabel from './CatLabel';
 
-const VideoModal = ({ isolate, video, m2l_cat, post_title, onClose }) => {
-  const { width, height, videopress } = video;
-
-  const [viewportWidth, viewportHeight, update] = useViewportSizes();
+const VideoModal = () => {
   const [wrapperRef, size] = useMeasure();
-
+  const router = useRouter();
+  const { isolate, videoModal, toggleVideoModal } = useSiteContext();
+  const post_title = isolate?.post_title || '';
+  const m2l_cat = isolate?.m2l_cat || '';
+  const tags = isolate?.tags || [];
   const aspect = 16 / 9;
 
   const heightIfFullWidth = size.width / aspect;
@@ -35,39 +41,61 @@ const VideoModal = ({ isolate, video, m2l_cat, post_title, onClose }) => {
         height: heightIfFullWidth,
       };
 
-  // console.log({ tooTallIfFullWidth, tooWideIfFullHeight, videoHeight, videoWidth, measuredWidth: size.width, measuredHeight: size.height });
+  const transition = useTransition(videoModal, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
+
+  const [controls, setControls] = useState();
+
+  return transition(
+    (styles, item) =>
+      item && (
+        <StyledVideo className="single-video" style={styles} videoSizes={videoSizes}>
+          <div className="single-video__wrap" ref={wrapperRef}>
+            <div className="single-video__inner">{!!size.width && <Video setControls={setControls} isolate={isolate} />}</div>
+            <CountdownTimer controls={controls} />
+          </div>
+          <div className="single-video__info">
+            <Image className="single-video__logo" src={logo} alt="M2L.tv" />
+            <h1 className="single-video__title">{post_title}</h1>
+            <CatLabel className="single-video__cat">{m2l_cat?.name}</CatLabel>
+            <ul className="single-video__tags">
+              {tags.map((tag, i) => (
+                <li key={tag.term_id}>
+                  {tag.name}
+                  {i < tags.length - 1 && ' / '}
+                </li>
+              ))}
+            </ul>
+            <CloseButton
+              className="single-video__close"
+              onClick={() => {
+                toggleVideoModal(false);
+                router.push('/', undefined, { shallow: true });
+              }}
+            />
+            {/* <VscChromeClose /> */}
+          </div>
+        </StyledVideo>
+      )
+  );
+};
+
+const Video = ({ setControls, isolate }) => {
+  const { width, height, videopress } = isolate?.video;
   const [videoHTML, state, controls, ref] = useVideo(
     <video className="single-video__video" width={width} height={height} controls poster={videopress.poster}>
       <source src={videopress.original} type="video/mp4" />
     </video>
   );
-
-  return (
-    <TransitionGroup component={null}>
-      <CSSTransition key={isolate} timeout={500}>
-        <>
-          {isolate && (
-            <StyledVideo className="single-video" videoSizes={videoSizes}>
-              <div className="single-video__wrap" ref={wrapperRef}>
-                <div className="single-video__inner">{!!size.width && videoHTML}</div>
-                <CountdownTimer controls={controls} />
-              </div>
-              <div className="single-video__info">
-                <Image className="single-video__logo" src={logo} alt="M2L.tv" />
-                <h1 className="single-video__title">{post_title}</h1>
-                <p className="single-video__cat">{m2l_cat?.name}</p>
-                <CloseButton className="single-video__close" />
-                {/* <VscChromeClose /> */}
-              </div>
-            </StyledVideo>
-          )}
-        </>
-      </CSSTransition>
-    </TransitionGroup>
-  );
+  useEffect(() => {
+    setControls(controls);
+  }, []);
+  return videoHTML;
 };
-
-const StyledVideo = styled.div`
+const StyledVideo = styled(animated.div)`
   position: fixed;
   top: 0;
   left: 0;
@@ -76,7 +104,7 @@ const StyledVideo = styled.div`
   background: ${({ theme }) => theme.black};
   z-index: 5;
   padding: 6rem;
-  transition: 0.5s;
+
   display: grid;
   grid-template-rows: 1fr auto;
   grid-template-columns: 100%;
@@ -106,11 +134,11 @@ const StyledVideo = styled.div`
     &__info {
       width: ${({ videoSizes }) => (!!videoSizes.width ? `${videoSizes.width}px` : '100%')};
       display: grid;
-      grid-template-columns: 200px 1fr;
+      grid-template-columns: 200px auto 1fr;
       grid-template-rows: auto auto;
       grid-template-areas:
-        'logo title'
-        '  .    cat';
+        'logo title title'
+        ' .    cat   tags';
       gap: 2rem;
       align-items: end;
       position: relative;
@@ -127,6 +155,20 @@ const StyledVideo = styled.div`
       grid-area: cat;
       color: ${({ theme }) => theme.pink};
       margin: 0;
+      justify-self: start;
+    }
+
+    &__tags {
+      color: ${({ theme }) => theme.pink};
+      grid-area: tags;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      align-self: center;
+      text-align: left;
+      li {
+        display: inline;
+      }
     }
 
     &__close {

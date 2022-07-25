@@ -1,16 +1,17 @@
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 
 import logo from '../public/m2l-tv.png';
 import m2lLogo from '../public/move-to-learn.png';
-import Link from 'next/link';
 import theme, { media } from './theme';
 import useSiteContext from './SiteContext';
 
 import HeaderModals from './HeaderModals';
-import Search from './Search';
+import Search from './Search/Search';
 
 const Header = () => {
   const aspect = 600 / 211;
@@ -22,6 +23,21 @@ const Header = () => {
   const [works, toggleWorks] = useState(false);
   const [search, toggleSearch] = useState(false);
   // a = w / h    ah = w
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.query.modal) {
+      const { modal } = router.query;
+      if (modal === 'how-it-works') {
+        toggleWorks(true);
+      }
+      if (modal === 'about') {
+        toggleAbout(true);
+      }
+    }
+  }, []);
+
   return (
     <>
       <StyledHeader className="header" logoWidth={width}>
@@ -34,16 +50,26 @@ const Header = () => {
           <p className="header-tagline__text">The 5-minute energy reset for your Mississippi classroom</p>
         </div>
         <nav className="header-nav">
-          <Link href="/how-it-works">
-            <a className="nav-link">
+          <div className="nav-link">
+            <button
+              onClick={() => {
+                toggleWorks(true);
+                router.push('?modal=how-it-works', '/how-it-works', { shallow: true });
+              }}
+            >
               <span>{worksNav}</span>
-            </a>
-          </Link>
-          <Link href="/about">
-            <a className="nav-link">
+            </button>
+          </div>
+          <div className="nav-link">
+            <button
+              onClick={() => {
+                toggleAbout(true);
+                router.push('?modal=about', '/about', { shallow: true });
+              }}
+            >
               <span>{aboutNav}</span>
-            </a>
-          </Link>
+            </button>
+          </div>
         </nav>
 
         <button className="search-button" onClick={() => toggleSearch(!search)}>

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { rgba } from 'polished';
 import React, { useState } from 'react';
 // import { animated, useSpring, useTransition } from 'react-spring';
@@ -8,27 +9,32 @@ import styled from 'styled-components';
 import formatDuration from '../../lib/formatDuration';
 import CatLabel from '../CatLabel';
 import PlayButton from '../PlayButton';
+import useSiteContext from '../SiteContext';
 import { media } from '../theme';
 
-const TrackSlide = ({ className, setIsolate, id, video, post_title, post_name, m2l_cat }) => {
+const TrackSlide = ({ className, id, video, post_title, post_name, m2l_cat, tags }) => {
+  const router = useRouter();
+  const { setIsolate, toggleVideoModal } = useSiteContext();
   return (
-    <Link href={`/video/${post_name}`}>
-      <Button
-        className="slide-video"
-        // hover={hover}
-        onClick={() => setIsolate({ id, video, post_title, m2l_cat })}
-      >
-        <img className="slide-video__poster" src={video.videopress?.poster} alt={post_title} />
-        <div className="slide-video__content-wrap">
-          <h3 className="slide-video__name">{post_title}</h3>
-          <div className="slide-video__info">
-            <CatLabel className="slide-video__cat">{m2l_cat?.name}</CatLabel>
-            <p className="slide-video__duration">{formatDuration(video.videopress?.duration)}</p>
-            {/* <PlayButton className="slide-video__play-button" /> */}
-          </div>
+    <Button
+      className="slide-video"
+      // hover={hover}
+      onClick={() => {
+        setIsolate({ id, video, post_title, m2l_cat, tags });
+        toggleVideoModal(true);
+        router.push(`?video=${post_name}`, `/video/${post_name}`, { shallow: true });
+      }}
+    >
+      <img className="slide-video__poster" src={video.videopress?.poster} alt={post_title} />
+      <div className="slide-video__content-wrap">
+        <h3 className="slide-video__name">{post_title}</h3>
+        <div className="slide-video__info">
+          <CatLabel className="slide-video__cat">{m2l_cat?.name}</CatLabel>
+          <p className="slide-video__duration">{formatDuration(video.videopress?.duration)}</p>
+          {/* <PlayButton className="slide-video__play-button" /> */}
         </div>
-      </Button>
-    </Link>
+      </div>
+    </Button>
   );
 };
 

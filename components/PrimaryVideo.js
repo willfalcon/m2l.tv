@@ -13,8 +13,6 @@ import { media } from './theme';
 const PrimaryVideo = props => {
   const { post_title, m2l_cat, video, post_name } = props;
 
-  const { isolate, setIsolate } = useSiteContext();
-
   const [videoHtml, state, controls, ref] = useVideo(
     <video className="primary-video__video" width={video.width} height={video.height} controls poster={video.videopress.poster}>
       <source src={video.videopress.original} type="video/mp4" />

@@ -13,8 +13,9 @@ import useViewportSizes from '../../lib/useViewportSizes';
 import { rgba } from 'polished';
 import TrackSlide from './TrackSlide';
 import { media } from '../theme';
+import useSiteContext from '../SiteContext';
 
-const VideoTrack = ({ className, videos, label, description, name, setIsolate }) => {
+const VideoTrack = ({ className, videos, label, description, name }) => {
   const [navDisabled, setNavDisabled] = useState([true, false]);
   const [width, height, update] = useViewportSizes();
   const mobile = width < 768;
@@ -57,7 +58,7 @@ const VideoTrack = ({ className, videos, label, description, name, setIsolate })
       >
         {videos.map(video => (
           <SwiperSlide className="" key={video.id}>
-            <TrackSlide {...video} setIsolate={setIsolate} />
+            <TrackSlide {...video} />
           </SwiperSlide>
         ))}
       </Swiper>
