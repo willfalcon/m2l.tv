@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
-import { Backdrop } from '../Modal';
-import Fade from '../Fade';
 import { useDebounce } from 'react-use';
-import useSiteContext from '../SiteContext';
-import SearchResults from './SearchResults';
 import { BiLoaderAlt } from 'react-icons/bi';
-import spin from '../spin';
 import nProgress from 'nprogress';
 import { animated, useTransition } from 'react-spring';
+
+import { Backdrop } from '../Modal';
+import SearchResults from './SearchResults';
+
+import Fade from '../Fade';
+import spin from '../spin';
 
 const Search = ({ search, toggleSearch, logoWidth }) => {
   const [searchTerm, setSearchTerm] = useState('');

@@ -1,21 +1,17 @@
-import { rgba } from 'polished';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import { VscChromeClose } from 'react-icons/vsc';
 import { animated, useTransition } from 'react-spring';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-
-import { useVideo } from 'react-use';
-import logo from '../public/m2l-tv.png';
-import CloseButton from './CloseButton';
-import fade from './Fade';
-import useViewportSizes from '../lib/useViewportSizes';
-import { useMeasure } from 'react-use';
-import CountdownTimer from './CountdownTimer';
-import useSiteContext from './SiteContext';
+import { useMeasure, useVideo } from 'react-use';
 import { useRouter } from 'next/router';
+
+import CloseButton from './CloseButton';
+import CountdownTimer from './CountdownTimer';
 import CatLabel from './CatLabel';
+
+import logo from '../public/m2l-tv.png';
+import fade from './Fade';
+import useSiteContext from './SiteContext';
 
 const VideoModal = () => {
   const [wrapperRef, size] = useMeasure();
