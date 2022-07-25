@@ -1,12 +1,13 @@
-import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import useSiteContext from '../SiteContext';
-import CatLabel from '../CatLabel';
-import formatDuration from '../../lib/formatDuration';
-import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi';
-import PlayButton from '../PlayButton';
+import { useRouter } from 'next/router';
 import { useTransition } from 'react-spring';
 import styled from 'styled-components';
+
+import CatLabel from '../CatLabel';
+import PlayButton from '../PlayButton';
+
+import useSiteContext from '../SiteContext';
+import formatDuration from '../../lib/formatDuration';
 
 const Result = ({ id, post_name, video, post_title, m2l_cat, tags, toggleSearch }) => {
   const { setIsolate, toggleVideoModal } = useSiteContext();
@@ -76,22 +77,16 @@ const SearchResult = styled.li`
       text-decoration: none;
     }
     &__poster-wrapper {
-      /* grid-row: 1 / 3;
-      grid-column: 1 / 2; */
-      /* width: 100%; */
       height: 100%;
       grid-area: poster;
     }
     &__poster {
-      /* position: absolute; */
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
 
     &__name {
-      /* grid-row: 1 / 2;
-      grid-column: 2 / 4; */
       justify-self: start;
       font-size: 2.8rem;
       margin: 0;

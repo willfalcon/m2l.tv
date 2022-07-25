@@ -2,13 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { IoPlaySharp } from 'react-icons/io5';
 import classNames from 'classnames';
-import spin from './spin';
 import Link from 'next/link';
 import { animated } from 'react-spring';
 
-const PlayButton = ({ className, href, styles }) => {
+import spin from './spin';
+
+const PlayButton = ({ className, styles, onClick }) => {
   return (
-    <ButtonStyles className={classNames('play-button', className)} style={styles}>
+    <ButtonStyles className={classNames('play-button', className)} style={styles} onClick={onClick}>
       <span>
         Play <IoPlaySharp />
       </span>
@@ -16,7 +17,7 @@ const PlayButton = ({ className, href, styles }) => {
   );
 };
 
-const ButtonStyles = styled(animated.a)`
+const ButtonStyles = styled(animated.button)`
   display: inline-flex;
   align-items: center;
   justify-content: center;

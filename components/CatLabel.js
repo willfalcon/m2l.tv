@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
+
 import spin from './spin';
 
 const CatLabel = ({ className, children }) => {

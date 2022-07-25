@@ -28,16 +28,13 @@ const ResultsList = styled.ul`
   position: absolute;
   top: 81px;
   z-index: 3;
-  /* height: calc(100vh - 82px); */
-  /* max-height: calc(100vh - 82px); */
+
   display: grid;
   grid-template-rows: repeat(4, 1fr);
   grid-template-columns: 100%;
 
   .no-results {
     padding: 0 2.1rem;
-  }
-  .result {
   }
 `;
 

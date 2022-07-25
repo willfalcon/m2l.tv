@@ -1,23 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useVideo } from 'react-use';
+import { useRouter } from 'next/router';
 
 import BigLabel from './BigLabel';
 import CatLabel from './CatLabel';
-import formatDuration from '../lib/formatDuration';
 import PlayButton from './PlayButton';
-import VideoModal from './VideoModal';
-import useSiteContext from './SiteContext';
+
+import formatDuration from '../lib/formatDuration';
 import { media } from './theme';
+import useSiteContext from './SiteContext';
 
 const PrimaryVideo = props => {
-  const { post_title, m2l_cat, video, post_name } = props;
+  const { id, post_title, m2l_cat, video, post_name, tags } = props;
+  const { setIsolate, toggleVideoModal } = useSiteContext();
 
   const [videoHtml, state, controls, ref] = useVideo(
     <video className="primary-video__video" width={video.width} height={video.height} controls poster={video.videopress.poster}>
       <source src={video.videopress.original} type="video/mp4" />
     </video>
   );
+
+  const router = useRouter();
 
   return (
     <PrimaryVideoContainer className="primary-video">
@@ -28,7 +32,13 @@ const PrimaryVideo = props => {
       </CatLabel>
       <div className="primary-video__meta">
         <span className="primary-video__duration">{formatDuration(video.videopress.duration)}</span>
-        <PlayButton href={`/video/${post_name}`} />
+        <PlayButton
+          onClick={() => {
+            setIsolate({ id, video, post_title, m2l_cat, tags });
+            toggleVideoModal(true);
+            router.push(`?video=${post_name}`, `/video/${post_name}`, { shallow: true });
+          }}
+        />
       </div>
 
       <div className="primary-video__video-container">

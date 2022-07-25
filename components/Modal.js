@@ -15,7 +15,7 @@ const Modal = ({ children, onClose, className, open }) => {
 
   const backdropTransition = useTransition(open, {
     from: { opacity: 0 },
-    enter: { opacity: 0.65 },
+    enter: { opacity: 0.85 },
     leave: { opacity: 0 },
   });
   return (
@@ -25,7 +25,7 @@ const Modal = ({ children, onClose, className, open }) => {
       {transition(
         (styles, item) =>
           item && (
-            <StyledModal className={'modal'} style={styles}>
+            <StyledModal className={classNames(className, 'modal')} style={styles}>
               {children}
               <CloseButton className="modal__close" onClick={onClose} />
             </StyledModal>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDebounce } from 'react-use';
-import { BiLoaderAlt } from 'react-icons/bi';
 import nProgress from 'nprogress';
 import { animated, useTransition } from 'react-spring';
 
@@ -9,7 +8,6 @@ import { Backdrop } from '../Modal';
 import SearchResults from './SearchResults';
 
 import Fade from '../Fade';
-import spin from '../spin';
 
 const Search = ({ search, toggleSearch, logoWidth }) => {
   const [searchTerm, setSearchTerm] = useState('');

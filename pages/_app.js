@@ -3,14 +3,16 @@ import NProgress from 'nprogress';
 import Router from 'next/router';
 import App from 'next/app';
 import 'nprogress/nprogress.css';
-import Wrapper from '../components/Wrapper';
 import { ThemeProvider } from 'styled-components';
-import shuffle from '../lib/shuffle';
-import theme from '../components/theme';
+
+import Wrapper from '../components/Wrapper';
 import { SiteContextProvider } from '../components/SiteContext';
 import PrimaryVideo from '../components/PrimaryVideo';
 import VideoModal from '../components/VideoModal';
 import VideoTrack from '../components/Track/VideoTrack';
+
+import shuffle from '../lib/shuffle';
+import theme from '../components/theme';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());

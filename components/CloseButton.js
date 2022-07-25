@@ -1,7 +1,7 @@
-import classNames from 'classnames';
-import Link from 'next/link';
 import React from 'react';
 import styled, { css } from 'styled-components';
+import classNames from 'classnames';
+import Link from 'next/link';
 
 const CloseButton = ({ className, onClick }) => {
   if (onClick) {

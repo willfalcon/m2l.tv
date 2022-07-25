@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
-
-import logo from '../public/m2l-tv.png';
-import m2lLogo from '../public/move-to-learn.png';
-import theme, { media } from './theme';
-import useSiteContext from './SiteContext';
 
 import HeaderModals from './HeaderModals';
 import Search from './Search/Search';
+
+import logo from '../public/m2l-tv.png';
+import { media } from './theme';
+import useSiteContext from './SiteContext';
 
 const Header = () => {
   const aspect = 600 / 211;

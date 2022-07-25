@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 import { HiArrowNarrowRight, HiArrowNarrowLeft } from 'react-icons/hi';
 import classNames from 'classnames';
 import spin from '../spin';

@@ -1,19 +1,18 @@
-import classNames from 'classnames';
 import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
 import styled from 'styled-components';
+import { rgba } from 'polished';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
+import BigLabel from '../BigLabel';
+import TrackNav from './TrackNav';
+import TrackSlide from './TrackSlide';
+
+import useViewportSizes from '../../lib/useViewportSizes';
+import { media } from '../theme';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
-
-import BigLabel from '../BigLabel';
-
-import TrackNav from './TrackNav';
-import useViewportSizes from '../../lib/useViewportSizes';
-import { rgba } from 'polished';
-import TrackSlide from './TrackSlide';
-import { media } from '../theme';
-import useSiteContext from '../SiteContext';
 
 const VideoTrack = ({ className, videos, label, description, name }) => {
   const [navDisabled, setNavDisabled] = useState([true, false]);
@@ -115,7 +114,6 @@ const TrackWrapper = styled.div`
     }
     &__list {
       overflow: visible;
-      /* width: ${({ theme }) => theme.sizes.content}px; */
       width: 100%;
       padding: 0.5rem;
       max-width: 100%;

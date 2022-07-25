@@ -1,18 +1,15 @@
-import Link from 'next/link';
+import React from 'react';
 import { useRouter } from 'next/router';
 import { rgba } from 'polished';
-import React, { useState } from 'react';
-// import { animated, useSpring, useTransition } from 'react-spring';
 import styled from 'styled-components';
-// import { SwiperSlide } from 'swiper/react';
-// import theme from './theme';
-import formatDuration from '../../lib/formatDuration';
+
 import CatLabel from '../CatLabel';
-import PlayButton from '../PlayButton';
+
+import formatDuration from '../../lib/formatDuration';
 import useSiteContext from '../SiteContext';
 import { media } from '../theme';
 
-const TrackSlide = ({ className, id, video, post_title, post_name, m2l_cat, tags }) => {
+const TrackSlide = ({ id, video, post_title, post_name, m2l_cat, tags }) => {
   const router = useRouter();
   const { setIsolate, toggleVideoModal } = useSiteContext();
   return (
@@ -31,7 +28,6 @@ const TrackSlide = ({ className, id, video, post_title, post_name, m2l_cat, tags
         <div className="slide-video__info">
           <CatLabel className="slide-video__cat">{m2l_cat?.name}</CatLabel>
           <p className="slide-video__duration">{formatDuration(video.videopress?.duration)}</p>
-          {/* <PlayButton className="slide-video__play-button" /> */}
         </div>
       </div>
     </Button>
@@ -83,11 +79,7 @@ const Button = styled.a`
       margin: 0;
       margin-right: 1rem;
     }
-    &__duration {
-    }
-    &__poster {
-      /* transition: 0.5s; */
-    }
+
     &__play-button {
       transform: scale(0.8);
       margin-left: auto;
@@ -101,13 +93,6 @@ const Button = styled.a`
     .slide-video {
       &__content-wrap {
         height: 100px;
-      }
-      &__name {
-        /* left: 0%;
-        transform: translateX(0%); */
-      }
-      &__info {
-        /* height: 65px; */
       }
     }
   }
