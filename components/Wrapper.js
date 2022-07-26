@@ -11,12 +11,12 @@ const Wrapper = ({ children }) => {
     <SiteWrapper className="site-wrapper">
       <Meta />
       <Header />
-      <PageWrapper className="page-wrapper">{children}</PageWrapper>
+      {children}
       <GlobalStyle />
     </SiteWrapper>
   );
 };
 
 const SiteWrapper = styled.div``;
-const PageWrapper = styled.div``;
+
 export default Wrapper;

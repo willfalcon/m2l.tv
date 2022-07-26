@@ -5,13 +5,13 @@ import { animated, useTransition } from 'react-spring';
 import { useMeasure, useVideo } from 'react-use';
 import { useRouter } from 'next/router';
 
-import CloseButton from './CloseButton';
-import CountdownTimer from './CountdownTimer';
-import CatLabel from './CatLabel';
+import CloseButton from '../CloseButton';
+import CountdownTimer from '../CountdownTimer';
+import CatLabel from '../CatLabel';
 
-import logo from '../public/m2l-tv.png';
-import fade from './Fade';
-import useSiteContext from './SiteContext';
+import logo from '../../public/m2l-tv.png';
+import fade from '../Fade';
+import useSiteContext from '../SiteContext';
 
 const VideoModal = () => {
   const [wrapperRef, size] = useMeasure();

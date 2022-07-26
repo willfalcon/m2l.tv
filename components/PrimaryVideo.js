@@ -53,18 +53,20 @@ const PrimaryVideoContainer = styled.main`
   width: ${({ theme }) => theme.sizes.content}px;
   max-width: 100%;
   margin: 0 auto;
-  padding: 8rem 2rem;
 
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: auto auto auto;
-
+  align-items: center;
+  justify-items: start;
   grid-template-areas:
     'title label'
     'video video'
     'meta cat';
-
+  padding: 2rem;
+  gap: 2rem;
   ${media.break`
+    padding: 8rem 2rem;
     grid-template-columns: 250px 1fr;
     grid-template-rows: auto auto auto 1fr;
     gap: 1rem;
@@ -73,9 +75,8 @@ const PrimaryVideoContainer = styled.main`
       'title video'
       'cat video'
       'meta video';
+      align-items: start;
   `}
-  align-items: start;
-  justify-items: start;
   .primary-video {
     &__label {
       grid-area: label;
@@ -86,6 +87,7 @@ const PrimaryVideoContainer = styled.main`
     }
     &__title {
       grid-area: title;
+      margin: 0;
     }
     &__category {
       grid-area: cat;

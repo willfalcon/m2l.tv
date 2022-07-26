@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useRouter } from 'next/router';
 import { rgba } from 'polished';
 import styled from 'styled-components';
@@ -9,26 +9,28 @@ import formatDuration from '../../lib/formatDuration';
 import useSiteContext from '../SiteContext';
 import { media } from '../theme';
 
-const TrackSlide = ({ id, video, post_title, post_name, m2l_cat, tags }) => {
+const TrackSlide = ({ id, video, post_title, post_name, m2l_cat, tags, setHoverState, hoverState }) => {
   const router = useRouter();
   const { setIsolate, toggleVideoModal } = useSiteContext();
+  const ref = useRef();
+
   return (
     <Button
       className="slide-video"
-      // hover={hover}
+      ref={ref}
       onClick={() => {
         setIsolate({ id, video, post_title, m2l_cat, tags });
         toggleVideoModal(true);
         router.push(`?video=${post_name}`, `/video/${post_name}`, { shallow: true });
       }}
+      onMouseEnter={() => {
+        const pos = ref.current.getBoundingClientRect();
+        setHoverState([{ id, video, post_title, m2l_cat, post_name, tags, pos, scroll: window.scrollY }]);
+      }}
     >
       <img className="slide-video__poster" src={video.videopress?.poster} alt={post_title} />
       <div className="slide-video__content-wrap">
         <h3 className="slide-video__name">{post_title}</h3>
-        <div className="slide-video__info">
-          <CatLabel className="slide-video__cat">{m2l_cat?.name}</CatLabel>
-          <p className="slide-video__duration">{formatDuration(video.videopress?.duration)}</p>
-        </div>
       </div>
     </Button>
   );
@@ -85,7 +87,7 @@ const Button = styled.a`
       margin-left: auto;
     }
   }
-  :hover {
+  /* :hover {
     transform: scale(1.1) translateY(-30px);
     background: ${({ theme }) => rgba(theme.black, 1)};
     box-shadow: ${({ theme }) => theme.shadow};
@@ -95,7 +97,7 @@ const Button = styled.a`
         height: 100px;
       }
     }
-  }
+  } */
 `;
 
 export default TrackSlide;

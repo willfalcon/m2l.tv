@@ -14,7 +14,7 @@ import { media } from '../theme';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-const VideoTrack = ({ className, videos, label, description, name }) => {
+const VideoTrack = ({ className, videos, label, description, name, setHoverState, hoverState }) => {
   const [navDisabled, setNavDisabled] = useState([true, false]);
   const [width, height, update] = useViewportSizes();
   const mobile = width < 768;
@@ -57,7 +57,7 @@ const VideoTrack = ({ className, videos, label, description, name }) => {
       >
         {videos.map(video => (
           <SwiperSlide className="" key={video.id}>
-            <TrackSlide {...video} />
+            <TrackSlide {...video} setHoverState={setHoverState} hoverState={hoverState} />
           </SwiperSlide>
         ))}
       </Swiper>

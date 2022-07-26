@@ -26,7 +26,8 @@ const theme = {
     break: 768,
     large: 1024,
     content: 1200,
-    header: 140,
+    mobileHeader: 164,
+    header: 82,
   },
 };
 

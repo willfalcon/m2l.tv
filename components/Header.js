@@ -84,7 +84,6 @@ const Header = () => {
 
 const StyledHeader = styled.header`
   display: flex;
-  height: 82px;
   align-items: end;
 
   display: grid;
@@ -95,9 +94,10 @@ const StyledHeader = styled.header`
     'nav nav search';
 
   ${media.break`
-    grid-template-columns: ${({ logoWidth }) => `${logoWidth}px 1fr auto 71px`};
-    grid-template-areas: 
-      "logo tagline nav search";
+  grid-template-columns: ${({ logoWidth }) => `${logoWidth}px 1fr auto 71px`};
+  grid-template-areas: 
+    "logo tagline nav search";
+  height: ${({ theme }) => theme.sizes.header}px;
   `}
   justify-items: end;
 
@@ -112,6 +112,9 @@ const StyledHeader = styled.header`
     margin-left: 1rem;
     justify-self: start;
     grid-area: tagline;
+    &__text {
+      margin: 0.5rem;
+    }
   }
 
   .header-nav {
@@ -126,8 +129,12 @@ const StyledHeader = styled.header`
     height: 82px;
     display: inline-flex;
     justify-content: center;
-    align-items: end;
+    padding: 1rem;
+    align-items: center;
+    ${media.break`
     padding: 2rem;
+    align-items: end;
+    `}
     transform: skew(-12deg);
     text-transform: uppercase;
     text-decoration: none;
@@ -161,13 +168,12 @@ const StyledHeader = styled.header`
     display: block;
     width: 80px;
     margin-left: -8px;
+    grid-area: search;
 
     svg {
       width: 30px;
       height: 30px;
     }
-
-    grid-area: search;
   }
 `;
 
