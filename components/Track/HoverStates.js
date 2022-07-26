@@ -22,11 +22,17 @@ const HoverStates = ({ hoverState, setHoverState }) => {
       };
     },
     enter: props => {
-      const { pos, scroll } = props;
+      const { pos, scroll, viewportWidth } = props;
+      const defaultLeft = pos.left - pos.width / 4;
+      const newWidth = pos.width * 1.5;
+      const farthestRight = viewportWidth - newWidth - 30;
+      const left = defaultLeft < 10 ? 10 : defaultLeft > farthestRight ? farthestRight : defaultLeft;
+
+      console.log({ tooFarRight: defaultLeft > farthestRight, defaultLeft, farthestRight, left });
       return {
         top: `${pos.top + scroll - pos.height / 4}px`,
-        left: `${pos.left - pos.width / 4}px`,
-        width: `${pos.width * 1.5}px`,
+        left: `${left}px`,
+        width: `${newWidth}px`,
         height: `${pos.height * 1.5 + 70}px`,
         background: rgba(lighten(0.07, theme.black), 1),
       };

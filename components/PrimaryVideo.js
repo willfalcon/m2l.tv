@@ -30,9 +30,19 @@ const PrimaryVideo = props => {
       <CatLabel className="primary-video__category" rounded>
         {m2l_cat?.name}
       </CatLabel>
+      <ul className="primary-video__tags">
+        {tags &&
+          tags.map((tag, i) => (
+            <li key={tag.term_id} className="primary-video__tag">
+              {tag.name}
+              {i < tags.length - 1 && ' / '}
+            </li>
+          ))}
+      </ul>
       <div className="primary-video__meta">
         <span className="primary-video__duration">{formatDuration(video.videopress.duration)}</span>
         <PlayButton
+          className="primary-video__play-button"
           onClick={() => {
             setIsolate({ id, video, post_title, m2l_cat, tags });
             toggleVideoModal(true);
@@ -56,24 +66,26 @@ const PrimaryVideoContainer = styled.main`
 
   display: grid;
   grid-template-columns: 1fr auto;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto auto auto auto;
   align-items: center;
   justify-items: start;
   grid-template-areas:
     'title label'
     'video video'
-    'meta cat';
+    'meta cat'
+    'tags tags';
   padding: 2rem;
   gap: 2rem;
   ${media.break`
     padding: 8rem 2rem;
     grid-template-columns: 250px 1fr;
-    grid-template-rows: auto auto auto 1fr;
-    gap: 1rem;
+    grid-template-rows: auto auto auto auto 1fr;
+    gap: 2rem 1rem;
     grid-template-areas:
       'label video'
       'title video'
       'cat video'
+      'tags video'
       'meta video';
       align-items: start;
   `}
@@ -92,20 +104,49 @@ const PrimaryVideoContainer = styled.main`
     &__category {
       grid-area: cat;
       justify-self: end;
+      margin: 0;
       ${media.break`
         justify-self: start;
+
       `}
+    }
+    &__tags {
+      grid-area: tags;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li {
+        display: inline;
+        color: ${({ theme }) => theme.pink};
+      }
     }
     &__meta {
       grid-area: meta;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      ${media.break`
+        display: initial;
+      `}
     }
-
+    &__play-button {
+      order: 1;
+      ${media.break`
+        order: 2;
+      `}
+    }
     &__duration {
       color: ${({ theme }) => theme.pink};
       display: inline;
-      margin-top: 2rem;
-      margin-right: 2rem;
+      order: 2;
+      ${media.break`
+      
+        margin-top: 2rem;
+        margin-right: 2rem;
+        order: 1;
+      `}
     }
+
     &__info {
       flex: 0 0 250px;
       display: flex;

@@ -12,6 +12,7 @@ import CatLabel from '../CatLabel';
 import logo from '../../public/m2l-tv.png';
 import fade from '../Fade';
 import useSiteContext from '../SiteContext';
+import { media } from '../theme';
 
 const VideoModal = () => {
   const [wrapperRef, size] = useMeasure();
@@ -54,7 +55,9 @@ const VideoModal = () => {
             <CountdownTimer controls={controls} />
           </div>
           <div className="single-video__info">
-            <Image className="single-video__logo" src={logo} alt="M2L.tv" />
+            <div className="single-video__logo">
+              <Image className="single-video__logo-image" src={logo} alt="M2L.tv" />
+            </div>
             <h1 className="single-video__title">{post_title}</h1>
             <CatLabel className="single-video__cat">{m2l_cat?.name}</CatLabel>
             <ul className="single-video__tags">
@@ -91,6 +94,7 @@ const Video = ({ setControls, isolate }) => {
   }, []);
   return videoHTML;
 };
+
 const StyledVideo = styled(animated.div)`
   position: fixed;
   top: 0;
@@ -99,13 +103,19 @@ const StyledVideo = styled(animated.div)`
   height: 100%;
   background: ${({ theme }) => theme.black};
   z-index: 5;
-  padding: 6rem;
+  padding: 1rem;
 
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: 56.25vw 1fr;
   grid-template-columns: 100%;
   justify-items: center;
+  ${media.break`
+  padding: 6rem;
+  grid-template-rows: 1fr auto;
+  `}
+
   ${fade}
+
   .single-video {
     &__wrap {
       width: 100%;
@@ -130,14 +140,25 @@ const StyledVideo = styled(animated.div)`
     &__info {
       width: ${({ videoSizes }) => (!!videoSizes.width ? `${videoSizes.width}px` : '100%')};
       display: grid;
-      grid-template-columns: 200px auto 1fr;
-      grid-template-rows: auto auto;
-      grid-template-areas:
-        'logo title title'
-        ' .    cat   tags';
       gap: 2rem;
       align-items: end;
       position: relative;
+      grid-template-rows: auto auto auto 1fr;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        'title title'
+        'cat     .  '
+        'tags   tags'
+        'logo    .  ';
+
+      ${media.break`
+        grid-template-columns: 200px auto 1fr;
+        grid-template-rows: auto auto;
+        grid-template-areas:
+          'logo title title'
+          ' .    cat   tags';
+      
+      `}
     }
 
     &__logo {
@@ -146,6 +167,7 @@ const StyledVideo = styled(animated.div)`
     &__title {
       grid-area: title;
       margin: 0;
+      padding-right: 70px;
     }
     &__cat {
       grid-area: cat;
@@ -169,8 +191,11 @@ const StyledVideo = styled(animated.div)`
 
     &__close {
       position: absolute;
-      top: 20px;
+      top: 10px;
       right: 20px;
+      ${media.break`
+      top: 20px;
+      `}
     }
   }
 `;

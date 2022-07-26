@@ -8,23 +8,18 @@ import BigLabel from '../BigLabel';
 import TrackNav from './TrackNav';
 import TrackSlide from './TrackSlide';
 
-import useViewportSizes from '../../lib/useViewportSizes';
 import { media } from '../theme';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-const VideoTrack = ({ className, videos, label, description, name, setHoverState, hoverState }) => {
+const VideoTrack = ({ className, videos, label, description, name, setHoverState, hoverState, width, height }) => {
   const [navDisabled, setNavDisabled] = useState([true, false]);
-  const [width, height, update] = useViewportSizes();
+
   const mobile = width < 768;
   const [swiperRef, setSwiperRef] = useState(null);
 
   const [trackHeight, setTrackHeight] = useState(null);
-
-  useEffect(() => {
-    update();
-  }, []);
 
   useEffect(() => {
     if (swiperRef?.el?.clientHeight) {
@@ -40,7 +35,7 @@ const VideoTrack = ({ className, videos, label, description, name, setHoverState
       </div>
       <Swiper
         className="video-track__list"
-        spaceBetween={mobile ? 0 : 50}
+        spaceBetween={mobile ? 2 : 50}
         slidesPerView={3}
         onSlideChange={swiper => {
           if (swiper.isBeginning) {
@@ -57,7 +52,7 @@ const VideoTrack = ({ className, videos, label, description, name, setHoverState
       >
         {videos.map(video => (
           <SwiperSlide className="" key={video.id}>
-            <TrackSlide {...video} setHoverState={setHoverState} hoverState={hoverState} />
+            <TrackSlide {...video} setHoverState={setHoverState} hoverState={hoverState} viewportWidth={width} />
           </SwiperSlide>
         ))}
       </Swiper>
