@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import useSiteContext from './SiteContext';
 
 import spin from './spin';
 
-const CountdownTimer = ({ controls }) => {
-  const [timer, setTimer] = useState(3);
+const CountdownTimer = ({ controls, videoRef }) => {
+  const { autoplay } = useSiteContext();
 
+  const startTime = autoplay === 'countdown' ? 3 : 0;
+  const [timer, setTimer] = useState(startTime);
   function decrementInOneSecond(current) {
     setTimeout(() => {
       if (current > 0) {
@@ -17,8 +20,14 @@ const CountdownTimer = ({ controls }) => {
   }
 
   useEffect(() => {
-    decrementInOneSecond(timer);
-  }, [timer]);
+    if (autoplay === 'autoplay') {
+      videoRef?.current?.addEventListener('canplay', () => {
+        controls.play();
+      });
+    } else if (autoplay === 'countdown') {
+      decrementInOneSecond(timer);
+    }
+  }, [timer, videoRef]);
 
   return timer === 0 ? null : (
     <Countdown className="countdown">

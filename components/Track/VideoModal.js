@@ -12,6 +12,7 @@ import CatLabel from '../CatLabel';
 import logo from '../../public/m2l-tv.png';
 import useSiteContext from '../SiteContext';
 import { media } from '../theme';
+import Settings from './Settings';
 
 const VideoModal = () => {
   const [wrapperRef, size] = useMeasure();
@@ -44,14 +45,18 @@ const VideoModal = () => {
   });
 
   const [controls, setControls] = useState();
+  const [ref, setRef] = useState();
 
   return transition(
     (styles, item) =>
       item && (
         <StyledVideo className="single-video" style={styles} videoSizes={videoSizes}>
+          <Settings />
           <div className="single-video__wrap" ref={wrapperRef}>
-            <div className="single-video__inner">{!!size.width && <Video setControls={setControls} isolate={isolate} />}</div>
-            <CountdownTimer controls={controls} />
+            <div className="single-video__inner">
+              {!!size.width && <Video setControls={setControls} setRef={setRef} isolate={isolate} />}
+            </div>
+            <CountdownTimer controls={controls} videoRef={ref} />
           </div>
           <div className="single-video__info">
             <div className="single-video__logo">
@@ -81,14 +86,16 @@ const VideoModal = () => {
   );
 };
 
-const Video = ({ setControls, isolate }) => {
+const Video = ({ setControls, setRef, isolate }) => {
   const { width, height, videopress } = isolate?.video;
   const [videoHTML, state, controls, ref] = useVideo(
     <video className="single-video__video" width={width} height={height} controls poster={videopress.poster}>
       <source src={videopress.original} type="video/mp4" />
     </video>
   );
+
   useEffect(() => {
+    setRef(ref);
     setControls(controls);
   }, []);
   return videoHTML;

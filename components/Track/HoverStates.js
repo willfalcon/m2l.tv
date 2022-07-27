@@ -28,7 +28,6 @@ const HoverStates = ({ hoverState, setHoverState }) => {
       const farthestRight = viewportWidth - newWidth - 30;
       const left = defaultLeft < 10 ? 10 : defaultLeft > farthestRight ? farthestRight : defaultLeft;
 
-      console.log({ tooFarRight: defaultLeft > farthestRight, defaultLeft, farthestRight, left });
       return {
         top: `${pos.top + scroll - pos.height / 4}px`,
         left: `${left}px`,
