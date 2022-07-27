@@ -11,11 +11,12 @@ import Search from './Search/Search';
 import logo from '../public/m2l-tv.png';
 import { media } from './theme';
 import useSiteContext from './SiteContext';
+import round from '../lib/round';
 
 const Header = () => {
   const aspect = 600 / 211;
   const height = 70;
-  const width = aspect * height;
+  const width = round(aspect * height);
 
   const { aboutNav, worksNav } = useSiteContext();
   const [about, toggleAbout] = useState(false);
@@ -86,9 +87,10 @@ const StyledHeader = styled.header`
   display: flex;
   align-items: end;
 
+  height: ${({ theme }) => theme.sizes.mobileHeader};
   display: grid;
   grid-template-columns: 1fr 1fr 71px;
-  grid-template-rows: auto auto;
+  grid-template-rows: 1fr 1fr;
   grid-template-areas:
     'logo tagline tagline'
     'nav nav search';

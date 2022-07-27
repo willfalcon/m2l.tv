@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import useSiteContext from '../SiteContext';
 import Result from './Result';
 
+import { media } from '../theme';
+
 const SearchResults = ({ logoWidth, results, noResults, toggleSearch }) => {
   const router = useRouter();
   const { setIsolate, toggleVideoModal } = useSiteContext();
@@ -22,13 +24,18 @@ const ResultsList = styled.ul`
   list-style: none;
   padding: 1rem;
   margin: 0;
-  width: calc(100vw - ${({ logoWidth }) => logoWidth + 80 + 7}px);
   max-width: 100%;
-  left: ${({ logoWidth }) => logoWidth}px;
   position: absolute;
-  top: 81px;
   z-index: 3;
+  top: ${({ theme }) => theme.sizes.mobileHeader}px;
+  left: 0;
+  width: 100%;
 
+  ${media.break`
+  top: 81px;
+  left: ${({ logoWidth }) => logoWidth}px;
+  width: calc(100vw - ${({ logoWidth }) => logoWidth + 80 + 7}px);
+  `}
   display: grid;
   grid-template-rows: repeat(4, 1fr);
   grid-template-columns: 100%;

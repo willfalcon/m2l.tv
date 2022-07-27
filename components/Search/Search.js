@@ -6,8 +6,7 @@ import { animated, useTransition } from 'react-spring';
 
 import { Backdrop } from '../Modal';
 import SearchResults from './SearchResults';
-
-import Fade from '../Fade';
+import { media } from '../theme';
 
 const Search = ({ search, toggleSearch, logoWidth }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -80,44 +79,25 @@ const Search = ({ search, toggleSearch, logoWidth }) => {
   );
 };
 
-const SearchBackdrop = styled(Backdrop)`
-  top: 0;
-  height: 100%;
-`;
-
-const SearchWrap = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  transition: 0.3s;
-  z-index: 4;
-
-  ${Fade}
-  .search-close {
-    top: 2rem;
-    right: 1rem;
-    z-index: 3;
-  }
-  .search-backdrop {
-    top: 0;
-    height: 100%;
-  }
-`;
-
 const SearchBar = styled(animated.div)`
   position: absolute;
   height: 82px;
-  left: ${({ logoWidth }) => logoWidth}px;
   /* transform: translateX(-50%); */
   background: ${({ theme }) => theme.black};
-  width: calc(100vw - ${({ logoWidth }) => logoWidth + 80 + 7}px);
   max-width: 100%;
-  top: 0;
-  padding: 1rem 3.3rem;
   transform: skew(-12deg);
   z-index: 2;
+  left: 0;
+  top: 82px;
+  width: calc(100vw - 73px);
+  padding: 1rem;
+
+  ${media.break`
+    top: 0;
+    left: ${({ logoWidth }) => logoWidth}px;
+    width: calc(100vw - ${({ logoWidth }) => logoWidth + 80 + 7}px);
+    padding: 1rem 3.3rem;
+  `}
   .search-bar {
     &__input {
       width: 100%;

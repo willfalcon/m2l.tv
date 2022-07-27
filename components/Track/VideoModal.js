@@ -10,7 +10,6 @@ import CountdownTimer from '../CountdownTimer';
 import CatLabel from '../CatLabel';
 
 import logo from '../../public/m2l-tv.png';
-import fade from '../Fade';
 import useSiteContext from '../SiteContext';
 import { media } from '../theme';
 
@@ -110,11 +109,9 @@ const StyledVideo = styled(animated.div)`
   grid-template-columns: 100%;
   justify-items: center;
   ${media.break`
-  padding: 6rem;
-  grid-template-rows: 1fr auto;
+    padding: 6rem;
+    grid-template-rows: 1fr auto;
   `}
-
-  ${fade}
 
   .single-video {
     &__wrap {

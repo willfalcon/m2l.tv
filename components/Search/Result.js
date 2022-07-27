@@ -8,6 +8,7 @@ import PlayButton from '../PlayButton';
 
 import useSiteContext from '../SiteContext';
 import formatDuration from '../../lib/formatDuration';
+import { media } from '../theme';
 
 const Result = ({ id, post_name, video, post_title, m2l_cat, tags, toggleSearch }) => {
   const { setIsolate, toggleVideoModal } = useSiteContext();
@@ -54,9 +55,12 @@ const Result = ({ id, post_name, video, post_title, m2l_cat, tags, toggleSearch 
 };
 
 const SearchResult = styled.li`
-  padding: 1rem 2rem;
   background: ${({ theme }) => theme.black};
   position: relative;
+  padding: 1rem;
+  ${media.break`
+  padding: 1rem 2rem;
+  `}
   .result {
     &__button {
       display: flex;
@@ -66,15 +70,23 @@ const SearchResult = styled.li`
       background: none;
       display: grid;
       gap: 1rem;
+      grid-template-columns: 50% auto 1fr;
+      grid-template-rows: auto auto auto;
+      grid-template-areas:
+        'poster name name'
+        'poster cat duration'
+        'poster tags tags';
+      justify-items: start;
+      align-items: center;
+      align-content: center;
+      text-decoration: none;
+      ${media.break`
       grid-template-columns: 250px auto auto 1fr;
       grid-template-rows: auto auto;
       grid-template-areas:
         'poster name name name'
         'poster cat duration tags ';
-      justify-items: start;
-      align-items: center;
-      align-content: center;
-      text-decoration: none;
+      `}
     }
     &__poster-wrapper {
       height: 100%;
@@ -88,13 +100,20 @@ const SearchResult = styled.li`
 
     &__name {
       justify-self: start;
+      font-size: 1.8rem;
+      ${media.break`
       font-size: 2.8rem;
+      `}
       margin: 0;
       grid-area: name;
     }
     &__cat {
       margin: 0;
       grid-area: cat;
+      padding: 1rem;
+      ${media.break`
+        padding: 1rem 2rem;
+      `}
     }
     &__play-button {
       position: absolute;
