@@ -20,6 +20,23 @@ const CountdownTimer = ({ controls, videoRef }) => {
     }, 1000);
   }
 
+  function checkUI() {
+    if (timer > 0) {
+      setTimer(0);
+    }
+  }
+
+  useEffect(() => {
+    if (videoRef?.current) {
+      videoRef.current.addEventListener('play', checkUI);
+    }
+    return () => {
+      if (videoRef?.current) {
+        videoRef.current.removeEventListener('play', checkUI);
+      }
+    };
+  }, [videoRef]);
+
   if (timer === 0) {
     return null;
   }
