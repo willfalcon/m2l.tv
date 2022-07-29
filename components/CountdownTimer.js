@@ -1,38 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import useSiteContext from './SiteContext';
+
+import BigPlayButton from './BigPlayButton';
 
 import spin from './spin';
 
 const CountdownTimer = ({ controls, videoRef }) => {
-  const { autoplay } = useSiteContext();
+  const [timer, setTimer] = useState(3);
+  const [timerStarted, startTimer] = useState(false);
 
-  const startTime = autoplay === 'countdown' ? 3 : 0;
-  const [timer, setTimer] = useState(startTime);
   function decrementInOneSecond(current) {
     setTimeout(() => {
       if (current > 0) {
         setTimer(current - 1);
+        decrementInOneSecond(current - 1);
       } else {
         controls.play();
       }
     }, 1000);
   }
 
-  useEffect(() => {
-    if (autoplay === 'autoplay') {
-      videoRef?.current?.addEventListener('canplay', () => {
-        controls.play();
-      });
-    } else if (autoplay === 'countdown') {
-      decrementInOneSecond(timer);
-    }
-  }, [timer, videoRef]);
+  if (timer === 0) {
+    return null;
+  }
 
-  return timer === 0 ? null : (
+  return timerStarted ? (
     <Countdown className="countdown">
       <span>{timer}</span>
     </Countdown>
+  ) : (
+    <BigPlayButton
+      className="single-video__play-button"
+      onClick={() => {
+        startTimer(true);
+        decrementInOneSecond(timer);
+      }}
+    />
   );
 };
 

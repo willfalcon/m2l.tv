@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { lighten, rgba } from 'polished';
 import React from 'react';
-import { HiScale } from 'react-icons/hi';
 import { useTransition, animated } from 'react-spring';
 import styled from 'styled-components';
 import formatDuration from '../../lib/formatDuration';

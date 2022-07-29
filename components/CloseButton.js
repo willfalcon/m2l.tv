@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import classNames from 'classnames';
 import Link from 'next/link';
 
-const CloseButton = ({ className, onClick }) => {
+import useSpinEffect from '../lib/useSpinEffect';
+
+const CloseButton = ({ className, onClick, style }) => {
+  const [spin, handlers] = useSpinEffect();
+
   if (onClick) {
     return (
-      <Button className={classNames('close-button', className)} onClick={onClick}>
+      <Button
+        className={classNames('close-button', className)}
+        onClick={onClick}
+        {...handlers}
+        style={{
+          ...spin,
+          style,
+        }}
+      >
         <span />
         <span />
       </Button>
@@ -14,7 +26,11 @@ const CloseButton = ({ className, onClick }) => {
   }
   return (
     <Link href="/">
-      <ButtonLink className={classNames('close-button close-button--link', className)}>
+      <ButtonLink
+        className={classNames('close-button close-button--link', className)}
+        onMouseOver={() => setTurning(true)}
+        onMouseLeave={() => setTurning(false)}
+      >
         <span />
         <span />
       </ButtonLink>
@@ -25,7 +41,6 @@ const CloseButton = ({ className, onClick }) => {
 const ButtonStyles = css`
   width: 40px;
   height: 40px;
-  background: ${({ theme }) => theme.gradient};
   border: 0;
   border-radius: 50%;
   z-index: 0;
@@ -33,7 +48,21 @@ const ButtonStyles = css`
   box-shadow: ${({ theme }) => theme.shadow};
   position: absolute;
   cursor: pointer;
-  &::before {
+  background: none;
+  ::before {
+    content: '';
+    background: ${({ theme }) => theme.gradient};
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    transform: var(--angle);
+    transition: 0.4s;
+    transition-timing-function: linear;
+  }
+  &::after {
     content: '';
     background: ${({ theme }) => theme.black};
     width: calc(100% - 2px);
@@ -44,6 +73,7 @@ const ButtonStyles = css`
     border-radius: 50%;
     z-index: 1;
   }
+
   span {
     width: 25px;
     height: 1px;

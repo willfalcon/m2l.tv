@@ -2,19 +2,22 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import classNames from 'classnames';
 
+import useSpinEffect from '../lib/useSpinEffect';
+
 const AddButton = ({ className, onClick, added }) => {
+  const [spin, handlers] = useSpinEffect(3);
+
   return (
-    <Button className={classNames('add-button', className)} onClick={onClick} added={added}>
+    <Button className={classNames('add-button', className, { added })} onClick={onClick} added={added} style={spin} {...handlers}>
       <span />
       <span />
     </Button>
   );
 };
 
-const ButtonStyles = css`
+const Button = styled.button`
   width: 40px;
   height: 40px;
-  background: ${({ theme }) => theme.gradient};
   border: 0;
   border-radius: 20px;
   z-index: 0;
@@ -22,58 +25,89 @@ const ButtonStyles = css`
   box-shadow: ${({ theme }) => theme.shadow};
   position: relative;
   cursor: pointer;
-  &::before {
+  ::before {
     content: '';
-    background: ${({ theme }) => theme.black};
-    width: calc(100% - 2px);
-    height: calc(100% - 2px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: ${({ theme }) => theme.gradient};
+    border-radius: 50%;
+    transform: var(--angle);
+    transition: var(--duration);
+    transition-timing-function: linear;
+    z-index: -1;
+  }
+  ::after {
+    content: '';
     position: absolute;
     top: 1px;
     left: 1px;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    background: ${({ theme }) => theme.gradientBlack};
     border-radius: 50%;
-    z-index: 1;
+    z-index: 0;
   }
-  span {
-    height: 1px;
-    background: rgba(255, 255, 255, 0.5);
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    z-index: 3;
-    transition: 0.25s;
-    transform-origin: left;
-    width: 25px;
-    ${({ added }) =>
-      added
-        ? `
-        &:nth-child(1) {
-        width: 22px;
-        transform: translate(-11px, -11px) rotate(-45deg);
-        transform: translate(-4px, 7px) rotate(-45deg);
-      }
-      &:nth-child(2) {
-        width: 10px;
-        transform: translate(-11px,-.5px) rotate(45deg);
-      }
-    `
-        : `
-      &:nth-child(1) {
-        width: 25px;
-        transform: translate(-12.5px,-.5px) rotate(0deg);
-      }
-      &:nth-child(2) {
-        width: 25px;
-        transform: translate(-0px,-12.5px) rotate(90deg);
-      }
-    `};
-  }
-`;
-const Button = styled.button`
-  ${ButtonStyles}
-`;
 
-const ButtonLink = styled.a`
-  ${ButtonStyles}
+  span {
+    ::before,
+    ::after {
+      content: '';
+      transition: 0.2s;
+      border-radius: 50%;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      background: ${({ theme }) => theme.gradient};
+      opacity: 1;
+    }
+
+    position: absolute;
+    z-index: 1;
+    transition: 0.2s;
+    transform-origin: left;
+
+    &:nth-child(1) {
+      height: ${({ added }) => (added ? `1px` : `15px`)};
+      width: ${({ added }) => (added ? `22px` : `15px`)};
+      top: ${({ added }) => (added ? `20px` : `22px`)};
+      left: 20px;
+      transform: ${({ added }) => (added ? `translate(-4px, 7px) rotate(-45deg)` : `translate(-4.75px, -2.75px) rotate(-45deg)`)};
+      background: ${({ theme }) => theme.gradient};
+      ::before {
+        top: ${({ added }) => (added ? `0` : `-50%`)};
+        left: 0;
+      }
+      ::after {
+        left: 50%;
+        left: ${({ added }) => (added ? `0` : `50%`)};
+        top: 0;
+      }
+    }
+
+    &:nth-child(2) {
+      height: ${({ added }) => (added ? `1px` : `13px`)};
+      width: ${({ added }) => (added ? `10px` : `13px`)};
+      top: ${({ added }) => (added ? `20px` : `22px`)};
+      left: 20px;
+      transform: ${({ added }) => (added ? `translate(-11px, -.5px) rotate(45deg)` : `translate(-4.75px, -2.75px) rotate(-45deg)`)};
+      background: ${({ added, theme }) => (added ? theme.gradient : theme.gradientBlack)};
+
+      ::before {
+        top: ${({ added }) => (added ? `0%` : `-50%`)};
+        left: 0;
+        background: ${({ added, theme }) => (added ? theme.gradient : theme.gradientBlack)};
+      }
+      ::after {
+        left: 50%;
+        left: ${({ added }) => (added ? `0%` : `50%`)};
+        top: 0;
+        background: ${({ added, theme }) => (added ? theme.gradient : theme.gradientBlack)};
+      }
+    }
+  }
 `;
 
 export default AddButton;

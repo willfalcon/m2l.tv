@@ -4,13 +4,21 @@ import React from 'react';
 import styled from 'styled-components';
 import useSiteContext from './SiteContext';
 
-import spin from './spin';
+import useSpinEffect from '../lib/useSpinEffect';
 
-const CatLabel = ({ className, children, slug }) => {
+const CatLabel = ({ className, children, slug, style }) => {
   const router = useRouter();
   const { toggleVideoModal } = useSiteContext();
+  const [spin, handlers] = useSpinEffect();
   return (
-    <Label className={classNames('cat-label', className)}>
+    <Label
+      className={classNames('cat-label', className)}
+      style={{
+        ...spin,
+        style,
+      }}
+      {...handlers}
+    >
       <span
         onClick={() => {
           router.push(`?curriculum=${slug}`, `/curriculum/${slug}`, { shallow: true });
@@ -42,10 +50,11 @@ const Label = styled.div`
     height: 225%;
     border-radius: 15px;
     background: ${({ theme }) => theme.gradient};
+    transform: var(--angle);
+    transition: var(--duration);
+    transition-timing-function: linear;
   }
-  :hover::before {
-    animation: ${spin} 2s linear infinite;
-  }
+
   span {
     color: ${({ theme }) => theme.pink};
     position: relative;

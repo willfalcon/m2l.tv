@@ -7,9 +7,9 @@ import { TrackContextProvider } from './TrackContext';
 
 import useViewportSizes from '../../lib/useViewportSizes';
 import theme from '../theme';
-import mockHoverState from '../TrackSlide/mockHoverState';
 import useTracksData from './useTracksData';
 import useSiteContext from '../SiteContext';
+import mockHoverState from '../TrackSlide/mockHoverState';
 
 const Tracks = ({ topVideos, videoSlug }) => {
   const [width, height, update] = useViewportSizes();
@@ -19,7 +19,7 @@ const Tracks = ({ topVideos, videoSlug }) => {
   }, []);
 
   const { videos, favoriteVids, favsReady } = useTracksData(videoSlug);
-  const [hoverState, setHoverState] = useState([]);
+  const [hoverState, setHoverState] = useState([mockHoverState]);
 
   const [tags, setTags] = useState(null);
 

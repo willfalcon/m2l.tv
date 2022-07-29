@@ -8,12 +8,11 @@ import { useRouter } from 'next/router';
 import CloseButton from './CloseButton';
 import CountdownTimer from './CountdownTimer';
 import CatLabel from './CatLabel';
+import TagsList from './TagsList';
 
 import logo from '../public/m2l-tv.png';
 import useSiteContext from './SiteContext';
 import { media } from './theme';
-import Settings from './Settings';
-import TagsList from './TagsList';
 
 const VideoModal = () => {
   const [wrapperRef, size] = useMeasure();
@@ -52,12 +51,12 @@ const VideoModal = () => {
     (styles, item) =>
       item && (
         <StyledVideo className="single-video" style={styles} videosizes={videoSizes}>
-          <Settings />
           <div className="single-video__wrap" ref={wrapperRef}>
             <div className="single-video__inner">
               {!!size.width && <Video setControls={setControls} setRef={setRef} isolate={isolate} />}
+
+              <CountdownTimer controls={controls} videoRef={ref} />
             </div>
-            <CountdownTimer controls={controls} videoRef={ref} />
           </div>
           <div className="single-video__info">
             <div className="single-video__logo">
