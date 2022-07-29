@@ -19,7 +19,6 @@ const Tracks = ({ topVideos, videoSlug }) => {
   }, []);
 
   const { videos, favoriteVids, favsReady } = useTracksData(videoSlug);
-
   const [hoverState, setHoverState] = useState([]);
 
   const [tags, setTags] = useState(null);
@@ -47,7 +46,7 @@ const Tracks = ({ topVideos, videoSlug }) => {
   return (
     <TrackContextProvider data={{ hoverState, setHoverState, viewportSizes: { width, height }, allReady }}>
       <VideoTrack videos={topVideos.slice(1)} label="Top Videos" slug="top-videos" />
-      {favoriteVids && <VideoTrack videos={favoriteVids} label="Favorites" slug="favorites" />}
+      {!!favoriteVids.length && <VideoTrack videos={favoriteVids} label="Favorites" slug="favorites" />}
       {videos.map((track, i) => (
         <VideoTrack key={track.term_id} {...track} triggerLoadTags={i >= videos.length - 2} />
       ))}

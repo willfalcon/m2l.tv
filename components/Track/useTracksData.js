@@ -33,7 +33,7 @@ export default function useTracksData(videoSlug) {
   const [favsReady, setFavsReady] = useState(false);
 
   useEffect(() => {
-    if (favorites && videos.length) {
+    if (!!favorites.length && videos.length) {
       const favoriteVids = favorites.map(fav =>
         videos.filter(cat => cat.videos.some(video => video.id === fav))[0]?.videos?.find(video => video.id === fav)
       );
