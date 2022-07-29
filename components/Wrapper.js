@@ -17,6 +17,8 @@ const Wrapper = ({ children }) => {
   );
 };
 
-const SiteWrapper = styled.div``;
+const SiteWrapper = styled.div`
+  margin-bottom: 12rem;
+`;
 
 export default Wrapper;

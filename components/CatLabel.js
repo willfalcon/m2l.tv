@@ -1,13 +1,26 @@
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
+import useSiteContext from './SiteContext';
 
 import spin from './spin';
 
-const CatLabel = ({ className, children }) => {
+const CatLabel = ({ className, children, slug }) => {
+  const router = useRouter();
+  const { toggleVideoModal } = useSiteContext();
   return (
     <Label className={classNames('cat-label', className)}>
-      <span>{children}</span>
+      <span
+        onClick={() => {
+          router.push(`?curriculum=${slug}`, `/curriculum/${slug}`, { shallow: true });
+          const anchor = document.getElementById(slug);
+          toggleVideoModal(false);
+          anchor.scrollIntoView({ block: 'center' });
+        }}
+      >
+        {children}
+      </span>
     </Label>
   );
 };
@@ -39,6 +52,7 @@ const Label = styled.div`
     z-index: 1;
     text-transform: uppercase;
     font-size: 1.8rem;
+    cursor: pointer;
   }
   &::after {
     content: '';

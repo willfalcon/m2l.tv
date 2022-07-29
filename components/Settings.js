@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { IoSettingsSharp } from 'react-icons/io5';
 import styled from 'styled-components';
 
-import Modal from '../Modal';
-import useSiteContext from '../SiteContext';
+import Modal from './Modal';
+import useSiteContext from './SiteContext';
 
 const Settings = () => {
   const [open, setOpen] = useState(false);

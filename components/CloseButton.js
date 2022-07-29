@@ -60,7 +60,7 @@ const ButtonStyles = css`
     }
   }
 `;
-const Button = styled.a`
+const Button = styled.button`
   ${ButtonStyles}
 `;
 
