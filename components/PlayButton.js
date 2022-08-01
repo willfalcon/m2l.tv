@@ -6,10 +6,13 @@ import Link from 'next/link';
 import { animated } from 'react-spring';
 
 import spin from './spin';
+import useSpinEffect from '../lib/useSpinEffect';
 
 const PlayButton = ({ className, styles, onClick }) => {
+  const [spin, handlers] = useSpinEffect(3);
+
   return (
-    <ButtonStyles className={classNames('play-button', className)} style={styles} onClick={onClick}>
+    <ButtonStyles className={classNames('play-button', className)} style={{ ...spin, ...styles }} {...handlers} onClick={onClick}>
       <span>
         Play <IoPlaySharp />
       </span>
@@ -48,6 +51,9 @@ const ButtonStyles = styled(animated.button)`
     border-radius: 50%;
     z-index: 0;
     transform-origin: center;
+    transform: var(--angle);
+    transition: var(--duration);
+    transition-timing-function: linear;
   }
   span {
     position: relative;
@@ -58,9 +64,6 @@ const ButtonStyles = styled(animated.button)`
   }
   :hover span {
     transform: scale(1.1);
-  }
-  :hover::before {
-    animation: ${spin} 2s linear infinite;
   }
 `;
 export default PlayButton;

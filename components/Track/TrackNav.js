@@ -2,11 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { HiArrowNarrowRight, HiArrowNarrowLeft } from 'react-icons/hi';
 import classNames from 'classnames';
-import spin from '../spin';
 
+import spin from '../spin';
 import { media } from '../theme';
+import useSpinEffect from '../../lib/useSpinEffect';
 
 const TrackNav = ({ className, navDisabled, swiper }) => {
+  const [prevSpin, prevHandlers] = useSpinEffect(3);
+  const [nextSpin, nextHandlers] = useSpinEffect(3);
+
   return (
     <>
       <NavButton
@@ -14,6 +18,8 @@ const TrackNav = ({ className, navDisabled, swiper }) => {
         className={classNames('track-nav track-prev', className)}
         disabled={navDisabled[0]}
         aria-disabled={navDisabled[0]}
+        {...prevHandlers}
+        style={prevSpin}
         onClick={() => {
           swiper.slideTo(swiper.activeIndex - 3);
         }}
@@ -25,6 +31,8 @@ const TrackNav = ({ className, navDisabled, swiper }) => {
         className={classNames('track-nav track-next', className)}
         disabled={navDisabled[1]}
         aria-disabled={navDisabled[1]}
+        {...nextHandlers}
+        style={nextSpin}
         onClick={() => {
           swiper.slideTo(swiper.activeIndex + 3);
         }}
@@ -48,6 +56,7 @@ const NavButton = styled.button`
   padding: 0;
   cursor: pointer;
   display: none;
+  opacity: 1;
   ${media.break`
     display: block;
   `}
@@ -61,10 +70,9 @@ const NavButton = styled.button`
     left: 0;
     z-index: 0;
     position: absolute;
-    /* transition: 0.25s; */
-  }
-  :hover::before {
-    animation: ${spin} 2s linear infinite;
+    transform: var(--angle);
+    transition: 0.4s;
+    transition-timing-function: linear;
   }
 
   &[aria-disabled='true'] {
@@ -75,7 +83,14 @@ const NavButton = styled.button`
     width: 90%;
     height: 90%;
     z-index: 1;
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    transition: 0.5s ease-out;
+  }
+  :hover:not([aria-disabled='true']) svg {
+    transform: translate(-50%, -50%) scale(1.1);
   }
   &.track-next {
     right: 10px;

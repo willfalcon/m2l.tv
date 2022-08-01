@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import styled from 'styled-components';
 import { rgba } from 'polished';
@@ -6,29 +6,54 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import BigLabel from '../BigLabel';
 import TrackNav from './TrackNav';
-import TrackSlide from './TrackSlide';
+import TrackSlide from '../TrackSlide/TrackSlide';
 
 import { media } from '../theme';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
+import useTrackContext from './TrackContext';
+import ScrollWatcher from './ScrollWatcher';
+import useSiteContext from '../SiteContext';
 
-const VideoTrack = ({ className, videos, label, description, name, setHoverState, hoverState, width, height }) => {
-  const [navDisabled, setNavDisabled] = useState([true, false]);
+const VideoTrack = ({ className, videos, label, description, name, slug, triggerLoadTags }) => {
+  const [navDisabled, setNavDisabled] = useState([true, videos.length <= 3]);
+  const { curriculumSlug, tagSlug, loadTags } = useSiteContext();
+  const {
+    hoverState,
+    setHoverState,
+    viewportSizes: { width, height },
+    allReady,
+  } = useTrackContext();
 
   const mobile = width < 768;
+
   const [swiperRef, setSwiperRef] = useState(null);
 
-  const [trackHeight, setTrackHeight] = useState(null);
+  const ref = useRef();
 
   useEffect(() => {
-    if (swiperRef?.el?.clientHeight) {
-      setTrackHeight(swiperRef.el.clientHeight);
+    if (curriculumSlug || tagSlug) {
+      if (curriculumSlug === slug) {
+        ref.current.scrollIntoView({ block: 'center' });
+      }
+      if (allReady) {
+        if (tagSlug === slug) {
+          ref.current.scrollIntoView({ block: 'center' });
+        }
+      }
     }
-  }, [swiperRef]);
+  }, [allReady]);
 
   return (
-    <TrackWrapper className={classNames('video-track', className)} viewport={{ width, height }} trackHeight={trackHeight}>
+    <TrackWrapper className={classNames('video-track', className)} viewport={{ width, height }} id={slug} ref={ref}>
+      {triggerLoadTags && (
+        <ScrollWatcher
+          onEnter={() => {
+            loadTags(true);
+          }}
+        />
+      )}
       <div className="video-track__header">
         <BigLabel className="video-track__label">{label || name}</BigLabel>
         <p className="video-track__description">{description}</p>
@@ -48,6 +73,9 @@ const VideoTrack = ({ className, videos, label, description, name, setHoverState
         }}
         onSwiper={swiper => {
           setSwiperRef(swiper);
+          if (tagSlug && tagSlug === slug) {
+            swiper.el.parentNode.scrollIntoView();
+          }
         }}
       >
         {videos.map(video => (
@@ -115,7 +143,7 @@ const TrackWrapper = styled.div`
       margin: 0 auto;
 
       ${media.break`
-        height: ${({ trackHeight }) => (trackHeight ? `${trackHeight}px` : 'auto')};
+        
         width: calc(100% - 120px);
         padding: 2rem;
         @media (min-width: 1500px) {

@@ -3,25 +3,32 @@ import { useRouter } from 'next/router';
 import { rgba } from 'polished';
 import styled from 'styled-components';
 
-import CatLabel from '../CatLabel';
-
 import formatDuration from '../../lib/formatDuration';
 import useSiteContext from '../SiteContext';
 import { media } from '../theme';
+import useTrackContext from '../Track/TrackContext';
 
-const TrackSlide = ({ id, video, post_title, post_name, m2l_cat, tags, setHoverState, hoverState, viewportWidth }) => {
+const TrackSlide = ({ id, video, post_title, post_name, m2l_cat, tags }) => {
   const router = useRouter();
   const { setIsolate, toggleVideoModal } = useSiteContext();
   const ref = useRef();
+  const {
+    setHoverState,
+    viewportSizes: { width: viewportWidth },
+  } = useTrackContext();
+
+  function openVideo(video) {
+    setIsolate(video);
+    toggleVideoModal(true);
+    router.push(`?video=${video.post_name}`, `/video/${video.post_name}`, { shallow: true });
+  }
 
   return (
     <Button
       className="slide-video"
       ref={ref}
       onClick={() => {
-        setIsolate({ id, video, post_title, m2l_cat, tags });
-        toggleVideoModal(true);
-        router.push(`?video=${post_name}`, `/video/${post_name}`, { shallow: true });
+        openVideo({ id, video, post_title, post_name, m2l_cat, tags });
       }}
       onMouseEnter={() => {
         const pos = ref.current.getBoundingClientRect();

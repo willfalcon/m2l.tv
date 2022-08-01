@@ -10,6 +10,8 @@ import PlayButton from './PlayButton';
 import formatDuration from '../lib/formatDuration';
 import { media } from './theme';
 import useSiteContext from './SiteContext';
+import TagsList from './TagsList';
+import CountdownTimer from './CountdownTimer';
 
 const PrimaryVideo = props => {
   const { id, post_title, m2l_cat, video, post_name, tags } = props;
@@ -27,18 +29,10 @@ const PrimaryVideo = props => {
     <PrimaryVideoContainer className="primary-video">
       <BigLabel className="primary-video__label">Watch Now</BigLabel>
       <h1 className="primary-video__title">{post_title}</h1>
-      <CatLabel className="primary-video__category" rounded>
+      <CatLabel className="primary-video__category" slug={m2l_cat?.slug} rounded>
         {m2l_cat?.name}
       </CatLabel>
-      <ul className="primary-video__tags">
-        {tags &&
-          tags.map((tag, i) => (
-            <li key={tag.term_id} className="primary-video__tag">
-              {tag.name}
-              {i < tags.length - 1 && ' / '}
-            </li>
-          ))}
-      </ul>
+      <TagsList className="primary-video__tags" tags={tags} />
       <div className="primary-video__meta">
         <span className="primary-video__duration">{formatDuration(video.videopress.duration)}</span>
         <PlayButton
@@ -52,7 +46,10 @@ const PrimaryVideo = props => {
       </div>
 
       <div className="primary-video__video-container">
-        <div className="primary-video__wrap">{videoHtml}</div>
+        <div className="primary-video__wrap">
+          {videoHtml}
+          <CountdownTimer controls={controls} videoRef={ref} />
+        </div>
       </div>
     </PrimaryVideoContainer>
   );

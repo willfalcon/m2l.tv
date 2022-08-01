@@ -5,13 +5,14 @@ import { animated, useTransition } from 'react-spring';
 import { useMeasure, useVideo } from 'react-use';
 import { useRouter } from 'next/router';
 
-import CloseButton from '../CloseButton';
-import CountdownTimer from '../CountdownTimer';
-import CatLabel from '../CatLabel';
+import CloseButton from './CloseButton';
+import CountdownTimer from './CountdownTimer';
+import CatLabel from './CatLabel';
+import TagsList from './TagsList';
 
-import logo from '../../public/m2l-tv.png';
-import useSiteContext from '../SiteContext';
-import { media } from '../theme';
+import logo from '../public/m2l-tv.png';
+import useSiteContext from './SiteContext';
+import { media } from './theme';
 
 const VideoModal = () => {
   const [wrapperRef, size] = useMeasure();
@@ -44,29 +45,28 @@ const VideoModal = () => {
   });
 
   const [controls, setControls] = useState();
+  const [ref, setRef] = useState();
 
   return transition(
     (styles, item) =>
       item && (
-        <StyledVideo className="single-video" style={styles} videoSizes={videoSizes}>
+        <StyledVideo className="single-video" style={styles} videosizes={videoSizes}>
           <div className="single-video__wrap" ref={wrapperRef}>
-            <div className="single-video__inner">{!!size.width && <Video setControls={setControls} isolate={isolate} />}</div>
-            <CountdownTimer controls={controls} />
+            <div className="single-video__inner">
+              {!!size.width && <Video setControls={setControls} setRef={setRef} isolate={isolate} />}
+
+              <CountdownTimer controls={controls} videoRef={ref} />
+            </div>
           </div>
           <div className="single-video__info">
             <div className="single-video__logo">
               <Image className="single-video__logo-image" src={logo} alt="M2L.tv" />
             </div>
             <h1 className="single-video__title">{post_title}</h1>
-            <CatLabel className="single-video__cat">{m2l_cat?.name}</CatLabel>
-            <ul className="single-video__tags">
-              {tags.map((tag, i) => (
-                <li key={tag.term_id}>
-                  {tag.name}
-                  {i < tags.length - 1 && ' / '}
-                </li>
-              ))}
-            </ul>
+            <CatLabel className="single-video__cat" slug={m2l_cat?.slug}>
+              {m2l_cat?.name}
+            </CatLabel>
+            <TagsList className="single-video__tags" tags={tags} />
             <CloseButton
               className="single-video__close"
               onClick={() => {
@@ -74,21 +74,22 @@ const VideoModal = () => {
                 router.push('/', undefined, { shallow: true });
               }}
             />
-            {/* <VscChromeClose /> */}
           </div>
         </StyledVideo>
       )
   );
 };
 
-const Video = ({ setControls, isolate }) => {
+const Video = ({ setControls, setRef, isolate }) => {
   const { width, height, videopress } = isolate?.video;
   const [videoHTML, state, controls, ref] = useVideo(
     <video className="single-video__video" width={width} height={height} controls poster={videopress.poster}>
       <source src={videopress.original} type="video/mp4" />
     </video>
   );
+
   useEffect(() => {
+    setRef(ref);
     setControls(controls);
   }, []);
   return videoHTML;
@@ -118,8 +119,8 @@ const StyledVideo = styled(animated.div)`
       width: 100%;
     }
     &__inner {
-      width: ${({ videoSizes }) => (!!videoSizes.width ? `${videoSizes.width}px` : '100%')};
-      height: ${({ videoSizes }) => (!!videoSizes.height ? `${videoSizes.height}px` : '100%')};
+      width: ${({ videosizes }) => (!!videosizes.width ? `${videosizes.width}px` : '100%')};
+      height: ${({ videosizes }) => (!!videosizes.height ? `${videosizes.height}px` : '100%')};
       position: relative;
       margin-left: auto;
       margin-right: auto;
@@ -130,12 +131,12 @@ const StyledVideo = styled(animated.div)`
       left: 0;
       width: 100%;
       height: 100%;
-      width: ${({ videoSizes }) => (!!videoSizes.width ? `${videoSizes.width}px` : '100%')};
-      height: ${({ videoSizes }) => (!!videoSizes.height ? `${videoSizes.height}px` : 'initial')};
+      width: ${({ videosizes }) => (!!videosizes.width ? `${videosizes.width}px` : '100%')};
+      height: ${({ videosizes }) => (!!videosizes.height ? `${videosizes.height}px` : 'initial')};
     }
 
     &__info {
-      width: ${({ videoSizes }) => (!!videoSizes.width ? `${videoSizes.width}px` : '100%')};
+      width: ${({ videosizes }) => (!!videosizes.width ? `${videosizes.width}px` : '100%')};
       display: grid;
       gap: 2rem;
       align-items: end;

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "analyze": "ANALYZE=true npm run build"
   },
   "author": "",
   "license": "ISC",
@@ -20,8 +21,12 @@
     "react-icons": "^4.4.0",
     "react-spring": "^9.5.0",
     "react-use": "^17.4.0",
+    "sharp": "^0.30.7",
     "styled-components": "^5.3.5",
     "swiper": "^8.3.1",
     "use-viewport-sizes": "^0.4.0"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "^12.2.3"
   }
 }

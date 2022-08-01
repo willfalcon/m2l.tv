@@ -12,6 +12,7 @@ const theme = {
 
   gradient: `linear-gradient(to bottom, #FF0E4D, #A1008E)`,
   gradientRight: `linear-gradient(to right, #FF0E4D, #A1008E)`,
+  gradientBlack: `linear-gradient(to bottom, #1A0E1C, #1A0E1C)`,
 
   shadow: `RGBA(0, 0, 0, 0.5) 0 2px 4px`,
 

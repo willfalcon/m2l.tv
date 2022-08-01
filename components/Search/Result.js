@@ -36,7 +36,9 @@ const Result = ({ id, post_name, video, post_title, m2l_cat, tags, toggleSearch 
           <img className="result__poster" src={video.videopress.poster} alt={post_title} />
         </div>
         <h3 className="result__name">{post_title}</h3>
-        <CatLabel className="result__cat">{m2l_cat.name}</CatLabel>
+        <CatLabel className="result__cat" slug={m2l_cat.slug}>
+          {m2l_cat.name}
+        </CatLabel>
         <span className="result__duration">{formatDuration(video.videopress.duration)}</span>
         {tags && (
           <ul className="result__tags">

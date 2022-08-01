@@ -1,9 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import { useLocalStorage } from 'react-use';
 
 const SiteContext = React.createContext();
 
 const SiteContextProvider = ({ children, data }) => {
-  return <SiteContext.Provider value={{ ...data }}>{children}</SiteContext.Provider>;
+  const [favorites, setFavorites] = useLocalStorage('favorites', []);
+  const [loadingTags, loadTags] = useState(!!data.tagSlug);
+  return <SiteContext.Provider value={{ ...data, favorites, setFavorites, loadingTags, loadTags }}>{children}</SiteContext.Provider>;
 };
 
 export default function useSiteContext() {
