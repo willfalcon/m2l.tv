@@ -3,12 +3,11 @@ import { useRouter } from 'next/router';
 import { rgba } from 'polished';
 import styled from 'styled-components';
 
-import formatDuration from '../../lib/formatDuration';
-import useSiteContext from '../SiteContext';
-import { media } from '../theme';
-import useTrackContext from '../Track/TrackContext';
+import useSiteContext from '../../SiteContext';
+import { media } from '../../theme';
+import useTrackContext from '../TrackContext';
 
-const TrackSlide = ({ id, video, post_title, post_name, m2l_cat, tags }) => {
+const TrackSlide = ({ id, video, post_title, post_name, m2l_cat, tags, noHover = false }) => {
   const router = useRouter();
   const { setIsolate, toggleVideoModal } = useSiteContext();
   const ref = useRef();
@@ -31,8 +30,10 @@ const TrackSlide = ({ id, video, post_title, post_name, m2l_cat, tags }) => {
         openVideo({ id, video, post_title, post_name, m2l_cat, tags });
       }}
       onMouseEnter={() => {
-        const pos = ref.current.getBoundingClientRect();
-        setHoverState([{ id, video, post_title, m2l_cat, post_name, tags, pos, scroll: window.scrollY, viewportWidth }]);
+        if (!noHover) {
+          const pos = ref.current.getBoundingClientRect();
+          setHoverState([{ id, video, post_title, m2l_cat, post_name, tags, pos, scroll: window.scrollY, viewportWidth }]);
+        }
       }}
     >
       <img className="slide-video__poster" src={video.videopress?.poster} alt={post_title} />

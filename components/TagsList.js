@@ -10,6 +10,7 @@ const TagsList = ({ className, tags }) => {
   const { loadTags, loadingTags, toggleVideoModal } = useSiteContext();
 
   const [mouseover, setMouseover] = useState(false);
+
   const [isReady, cancel] = useDebounce(
     () => {
       if (mouseover) {

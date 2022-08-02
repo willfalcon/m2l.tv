@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
 
 import VideoTrack from './VideoTrack';
-import VideoModal from '../VideoModal';
-import HoverStates from '../TrackSlide/HoverStates';
+import VideoModal from '../VideoModal/VideoModal';
+import HoverStates from './HoverStates';
 import { TrackContextProvider } from './TrackContext';
 
 import useViewportSizes from '../../lib/useViewportSizes';
 import theme from '../theme';
 import useTracksData from './useTracksData';
 import useSiteContext from '../SiteContext';
-import mockHoverState from '../TrackSlide/mockHoverState';
+import mockHoverState from './TrackSlide/mockHoverState';
 
 const Tracks = ({ topVideos, videoSlug }) => {
-  const [width, height, update] = useViewportSizes();
+  const [width, height, updateViewportSizes] = useViewportSizes();
 
   useEffect(() => {
-    update();
+    updateViewportSizes();
   }, []);
 
   const { videos, favoriteVids, favsReady } = useTracksData(videoSlug);
-  const [hoverState, setHoverState] = useState([mockHoverState]);
+  const [hoverState, setHoverState] = useState([]);
 
   const [tags, setTags] = useState(null);
 
@@ -37,6 +37,7 @@ const Tracks = ({ topVideos, videoSlug }) => {
   }, [loadingTags, tagSlug]);
 
   const [allReady, setAllReady] = useState(false);
+
   useEffect(() => {
     if (!!tags?.length && !!videos.length && favsReady) {
       setAllReady(true);
@@ -44,7 +45,7 @@ const Tracks = ({ topVideos, videoSlug }) => {
   }, [tags, videos, favsReady]);
 
   return (
-    <TrackContextProvider data={{ hoverState, setHoverState, viewportSizes: { width, height }, allReady }}>
+    <TrackContextProvider data={{ setHoverState, viewportSizes: { width, height }, allReady, videos }}>
       <VideoTrack videos={topVideos.slice(1)} label="Top Videos" slug="top-videos" />
       {!!favoriteVids.length && <VideoTrack videos={favoriteVids} label="Favorites" slug="favorites" />}
       {videos.map((track, i) => (
@@ -52,7 +53,7 @@ const Tracks = ({ topVideos, videoSlug }) => {
       ))}
       {tags && tags.map(track => <VideoTrack key={track.term_id} {...track} />)}
       <VideoModal />
-      {width >= theme.sizes.break && <HoverStates />}
+      {width >= theme.sizes.break && <HoverStates hoverState={hoverState} />}
     </TrackContextProvider>
   );
 };

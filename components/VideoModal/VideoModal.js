@@ -5,14 +5,16 @@ import { animated, useTransition } from 'react-spring';
 import { useMeasure, useVideo } from 'react-use';
 import { useRouter } from 'next/router';
 
-import CloseButton from './CloseButton';
-import CountdownTimer from './CountdownTimer';
-import CatLabel from './CatLabel';
-import TagsList from './TagsList';
+import CloseButton from '../CloseButton';
+import CountdownTimer from '../CountdownTimer';
+import CatLabel from '../CatLabel';
+import TagsList from '../TagsList';
+import Video from './Video';
+import NextVideos from './NextVideos';
 
-import logo from '../public/m2l-tv.png';
-import useSiteContext from './SiteContext';
-import { media } from './theme';
+import logo from '../../public/m2l-tv.png';
+import useSiteContext from '../SiteContext';
+import { media } from '../theme';
 
 const VideoModal = () => {
   const [wrapperRef, size] = useMeasure();
@@ -47,15 +49,21 @@ const VideoModal = () => {
   const [controls, setControls] = useState();
   const [ref, setRef] = useState();
 
+  const [finished, setFinished] = useState(false);
+
   return transition(
     (styles, item) =>
       item && (
         <StyledVideo className="single-video" style={styles} videosizes={videoSizes}>
           <div className="single-video__wrap" ref={wrapperRef}>
             <div className="single-video__inner">
-              {!!size.width && <Video setControls={setControls} setRef={setRef} isolate={isolate} />}
+              {!!size.width && (
+                <Video setControls={setControls} setRef={setRef} isolate={isolate} finished={finished} setFinished={setFinished} />
+              )}
 
-              <CountdownTimer controls={controls} videoRef={ref} />
+              <CountdownTimer videoRef={ref} time={3} onFinish={() => controls.play()} />
+
+              {finished && <NextVideos finished={finished} setFinished={setFinished} />}
             </div>
           </div>
           <div className="single-video__info">
@@ -78,21 +86,6 @@ const VideoModal = () => {
         </StyledVideo>
       )
   );
-};
-
-const Video = ({ setControls, setRef, isolate }) => {
-  const { width, height, videopress } = isolate?.video;
-  const [videoHTML, state, controls, ref] = useVideo(
-    <video className="single-video__video" width={width} height={height} controls poster={videopress.poster}>
-      <source src={videopress.original} type="video/mp4" />
-    </video>
-  );
-
-  useEffect(() => {
-    setRef(ref);
-    setControls(controls);
-  }, []);
-  return videoHTML;
 };
 
 const StyledVideo = styled(animated.div)`
@@ -140,14 +133,15 @@ const StyledVideo = styled(animated.div)`
       display: grid;
       gap: 2rem;
       align-items: end;
+      align-content: end;
       position: relative;
-      grid-template-rows: auto auto auto 1fr;
+      grid-template-rows: 1fr auto auto auto;
       grid-template-columns: 1fr 1fr;
       grid-template-areas:
         'title title'
         'cat     .  '
         'tags   tags'
-        'logo    .  ';
+        'logo button';
 
       ${media.break`
         grid-template-columns: 200px auto 1fr;
@@ -188,10 +182,11 @@ const StyledVideo = styled(animated.div)`
     }
 
     &__close {
-      position: absolute;
       top: 10px;
       right: 20px;
+      grid-area: button;
       ${media.break`
+      position: absolute;
       top: 20px;
       `}
     }

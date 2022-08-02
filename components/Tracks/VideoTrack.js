@@ -3,10 +3,11 @@ import classNames from 'classnames';
 import styled from 'styled-components';
 import { rgba } from 'polished';
 import { Swiper, SwiperSlide } from 'swiper/react';
+// import { useRendersCount } from 'react-use';
 
 import BigLabel from '../BigLabel';
 import TrackNav from './TrackNav';
-import TrackSlide from '../TrackSlide/TrackSlide';
+import TrackSlide from './TrackSlide/TrackSlide';
 
 import { media } from '../theme';
 
@@ -17,10 +18,11 @@ import ScrollWatcher from './ScrollWatcher';
 import useSiteContext from '../SiteContext';
 
 const VideoTrack = ({ className, videos, label, description, name, slug, triggerLoadTags }) => {
+  // const rendersCount = useRendersCount();
+  // console.log(`${label || name} rendered ${rendersCount} times.`);
   const [navDisabled, setNavDisabled] = useState([true, videos.length <= 3]);
   const { curriculumSlug, tagSlug, loadTags } = useSiteContext();
   const {
-    hoverState,
     setHoverState,
     viewportSizes: { width, height },
     allReady,
@@ -80,7 +82,7 @@ const VideoTrack = ({ className, videos, label, description, name, slug, trigger
       >
         {videos.map(video => (
           <SwiperSlide className="" key={video.id}>
-            <TrackSlide {...video} setHoverState={setHoverState} hoverState={hoverState} viewportWidth={width} />
+            <TrackSlide {...video} setHoverState={setHoverState} viewportWidth={width} />
           </SwiperSlide>
         ))}
       </Swiper>

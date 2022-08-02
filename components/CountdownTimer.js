@@ -5,9 +5,9 @@ import BigPlayButton from './BigPlayButton';
 
 import spin from './spin';
 
-const CountdownTimer = ({ controls, videoRef }) => {
-  const [timer, setTimer] = useState(3);
-  const [timerStarted, startTimer] = useState(false);
+const CountdownTimer = ({ videoRef, onFinish, startImmediately = false, time = 3 }) => {
+  const [timer, setTimer] = useState(time);
+  const [timerStarted, startTimer] = useState(startImmediately);
 
   function decrementInOneSecond(current) {
     setTimeout(() => {
@@ -15,7 +15,7 @@ const CountdownTimer = ({ controls, videoRef }) => {
         setTimer(current - 1);
         decrementInOneSecond(current - 1);
       } else {
-        controls.play();
+        onFinish();
       }
     }, 1000);
   }
@@ -25,6 +25,12 @@ const CountdownTimer = ({ controls, videoRef }) => {
       setTimer(0);
     }
   }
+
+  useEffect(() => {
+    if (startImmediately) {
+      decrementInOneSecond(timer);
+    }
+  }, []);
 
   useEffect(() => {
     if (videoRef?.current) {

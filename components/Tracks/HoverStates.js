@@ -8,13 +8,13 @@ import AddButton from '../AddButton';
 import CatLabel from '../CatLabel';
 import useSiteContext from '../SiteContext';
 import TagsList from '../TagsList';
-import useTrackContext from '../Track/TrackContext';
-import useHoverTransition from './useHoverTransition';
+import useTrackContext from '../Tracks/TrackContext';
+import useHoverTransition from './TrackSlide/useHoverTransition';
 
-const HoverStates = () => {
+const HoverStates = ({ hoverState }) => {
   const { setIsolate, toggleVideoModal, setFavorites, favorites } = useSiteContext();
   const router = useRouter();
-  const { hoverState, setHoverState } = useTrackContext();
+  const { setHoverState } = useTrackContext();
   const transitions = useHoverTransition(hoverState);
 
   function openVideo(video) {

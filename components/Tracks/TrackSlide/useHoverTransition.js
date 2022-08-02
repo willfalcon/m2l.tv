@@ -1,6 +1,6 @@
 import { lighten, rgba } from 'polished';
 import { useTransition } from 'react-spring';
-import theme from '../theme';
+import theme from '../../theme';
 
 export default function useHoverTransition(hoverState) {
   return useTransition(hoverState, {

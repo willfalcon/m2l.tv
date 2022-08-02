@@ -43,7 +43,7 @@ function MyApp(props) {
 MyApp.getInitialProps = async appContext => {
   const appProps = await App.getInitialProps(appContext);
 
-  //TODO this is called in client when we Link to any page with it, and API_BASE isn't accessible in browser, so maybe try an api route?
+  //TODO: if we initially request a video url, go ahead and get the video data too so we can prerender the modal open.
 
   const dataRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/wp-json/m2l-video/v2/data`);
   const data = await dataRes.json();
@@ -51,6 +51,7 @@ MyApp.getInitialProps = async appContext => {
   const videoSlug = appContext.ctx.query.video || null;
   const curriculumSlug = appContext.ctx.query.curriculum || null;
   const tagSlug = appContext.ctx.query.tag || null;
+
   return {
     ...appProps,
     topVideos: shuffle(data.topVideos),

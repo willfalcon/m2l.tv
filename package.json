@@ -27,6 +27,7 @@
     "use-viewport-sizes": "^0.4.0"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^12.2.3"
+    "@next/bundle-analyzer": "^12.2.3",
+    "@welldone-software/why-did-you-render": "^7.0.1"
   }
 }

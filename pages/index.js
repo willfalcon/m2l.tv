@@ -2,7 +2,7 @@ import React from 'react';
 
 import dynamic from 'next/dynamic';
 
-const Tracks = dynamic(() => import('../components/Track/Tracks'), {
+const Tracks = dynamic(() => import('../components/Tracks/Tracks'), {
   ssr: false,
 });
 
