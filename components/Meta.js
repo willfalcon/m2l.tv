@@ -4,9 +4,10 @@ import React from 'react';
 
 const Meta = () => {
   return (
-    <Head>
-      <title>Move To Learn TV</title>
-
+    <>
+      <Head>
+        <title>Move To Learn TV</title>
+      </Head>
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-8NWL5MECMJ" strategy="afterInteractive" />
       <Script id="google-analytics" strategy="afterInteractive">
         {`
@@ -17,7 +18,7 @@ const Meta = () => {
           gtag('config', 'G-8NWL5MECMJ');
         `}
       </Script>
-    </Head>
+    </>
   );
 };
 
