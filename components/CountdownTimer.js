@@ -5,7 +5,7 @@ import BigPlayButton from './BigPlayButton';
 
 import spin from './spin';
 
-const CountdownTimer = ({ controls, videoRef }) => {
+const CountdownTimer = ({ controls, videoRef, name }) => {
   const [timer, setTimer] = useState(3);
   const [timerStarted, startTimer] = useState(false);
 
@@ -21,6 +21,10 @@ const CountdownTimer = ({ controls, videoRef }) => {
   }
 
   function checkUI() {
+    gtag('event', 'video_play', {
+      video_name: name,
+    });
+    console.log('event fired');
     if (timer > 0) {
       setTimer(0);
     }

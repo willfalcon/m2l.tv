@@ -48,7 +48,7 @@ const PrimaryVideo = props => {
       <div className="primary-video__video-container">
         <div className="primary-video__wrap">
           {videoHtml}
-          <CountdownTimer controls={controls} videoRef={ref} />
+          <CountdownTimer controls={controls} videoRef={ref} name={post_title} />
         </div>
       </div>
     </PrimaryVideoContainer>

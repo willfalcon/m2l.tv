@@ -55,7 +55,7 @@ const VideoModal = () => {
             <div className="single-video__inner">
               {!!size.width && <Video setControls={setControls} setRef={setRef} isolate={isolate} />}
 
-              <CountdownTimer controls={controls} videoRef={ref} />
+              <CountdownTimer controls={controls} videoRef={ref} name={post_title} />
             </div>
           </div>
           <div className="single-video__info">
