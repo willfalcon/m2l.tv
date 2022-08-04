@@ -24,7 +24,7 @@ const CountdownTimer = ({ controls, videoRef, name }) => {
     gtag('event', 'video_play', {
       video_name: name,
     });
-    console.log('event fired');
+
     if (timer > 0) {
       setTimer(0);
     }
