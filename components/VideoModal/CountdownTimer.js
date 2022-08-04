@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import useSpinEffect from '../../lib/useSpinEffect';
 
 import BigPlayButton from './BigPlayButton';
-
-import spin from './spin';
 
 const CountdownTimer = ({ controls, videoRef, name }) => {
   const [timer, setTimer] = useState(3);
   const [timerStarted, startTimer] = useState(false);
+
+  const [spin] = useSpinEffect(4, true);
+
+  const [videoBeenPlayed, setVideoBeenPlayed] = useState(false);
 
   function decrementInOneSecond(current) {
     setTimeout(() => {
@@ -21,9 +24,13 @@ const CountdownTimer = ({ controls, videoRef, name }) => {
   }
 
   function checkUI() {
-    gtag('event', 'video_play', {
-      video_name: name,
-    });
+    if (!videoBeenPlayed) {
+      gtag('event', 'video_play', {
+        video_name: name,
+      });
+
+      setVideoBeenPlayed(true);
+    }
 
     if (timer > 0) {
       setTimer(0);
@@ -39,14 +46,14 @@ const CountdownTimer = ({ controls, videoRef, name }) => {
         videoRef.current.removeEventListener('play', checkUI);
       }
     };
-  }, [videoRef]);
+  }, [videoRef, videoBeenPlayed]);
 
   if (timer === 0) {
     return null;
   }
 
   return timerStarted ? (
-    <Countdown className="countdown">
+    <Countdown className="countdown" style={spin}>
       <span>{timer}</span>
     </Countdown>
   ) : (
@@ -88,7 +95,10 @@ const Countdown = styled.div`
     position: absolute;
     border-radius: 50%;
     z-index: 0;
-    animation: ${spin} 1s linear infinite;
+
+    transform: var(--angle);
+    transition: var(--duration);
+    transition-timing-function: linear;
   }
 `;
 

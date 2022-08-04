@@ -14,7 +14,7 @@ const Search = ({ search, toggleSearch, logoWidth }) => {
   const [results, setResults] = useState([]);
   const [noResults, setNoResults] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  // TODO: add loading state
   const [, cancel] = useDebounce(
     async () => {
       setNoResults(false);
@@ -22,7 +22,7 @@ const Search = ({ search, toggleSearch, logoWidth }) => {
       if (searchTerm) {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/wp-json/m2l-video/v1/search?term=${searchTerm}`);
         const data = await res.json();
-
+        //TODO: some results might show up for title and tag search and have duplicates in results
         if (data.length) {
           setResults(data);
         } else {

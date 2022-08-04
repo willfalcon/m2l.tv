@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { FaPlay } from 'react-icons/fa';
 import classNames from 'classnames';
 
-import { media } from './theme';
-import spin from './spin';
-import useSpinEffect from '../lib/useSpinEffect';
+import { media } from '../theme';
+import useSpinEffect from '../../lib/useSpinEffect';
 
 const BigPlayButton = ({ className, onClick }) => {
   const [spin, handlers] = useSpinEffect(4);
+
   return (
     <Button className={classNames(className, 'big-play-button')} onClick={onClick} style={spin} {...handlers}>
       <FaPlay />
@@ -16,7 +16,7 @@ const BigPlayButton = ({ className, onClick }) => {
   );
 };
 
-const Button = styled.button`
+export const Button = styled.button`
   width: 50px;
   height: 50px;
   position: absolute;
@@ -44,7 +44,7 @@ const Button = styled.button`
     left: 0;
     border-radius: 50%;
     transform: var(--angle);
-    transition: 0.4s;
+    transition: var(--duration);
     transition-timing-function: linear;
   }
 

@@ -5,14 +5,15 @@ import { animated, useTransition } from 'react-spring';
 import { useMeasure, useVideo } from 'react-use';
 import { useRouter } from 'next/router';
 
-import CloseButton from './CloseButton';
+import CloseButton from '../CloseButton';
 import CountdownTimer from './CountdownTimer';
-import CatLabel from './CatLabel';
-import TagsList from './TagsList';
+import CatLabel from '../CatLabel';
+import TagsList from '../TagsList';
+import Video from './Video';
 
-import logo from '../public/m2l-tv.png';
-import useSiteContext from './SiteContext';
-import { media } from './theme';
+import logo from '../../public/m2l-tv.png';
+import useSiteContext from '../SiteContext';
+import { media } from '../theme';
 
 const VideoModal = () => {
   const [wrapperRef, size] = useMeasure();
@@ -53,9 +54,7 @@ const VideoModal = () => {
         <StyledVideo className="single-video" style={styles} videosizes={videoSizes}>
           <div className="single-video__wrap" ref={wrapperRef}>
             <div className="single-video__inner">
-              {!!size.width && <Video setControls={setControls} setRef={setRef} isolate={isolate} />}
-
-              <CountdownTimer controls={controls} videoRef={ref} name={post_title} />
+              {!!size.width && <Video className="single-video__video" setControls={setControls} setRef={setRef} isolate={isolate} />}
             </div>
           </div>
           <div className="single-video__info">
@@ -78,21 +77,6 @@ const VideoModal = () => {
         </StyledVideo>
       )
   );
-};
-
-const Video = ({ setControls, setRef, isolate }) => {
-  const { width, height, videopress } = isolate?.video;
-  const [videoHTML, state, controls, ref] = useVideo(
-    <video className="single-video__video" width={width} height={height} controls poster={videopress.poster}>
-      <source src={videopress.original} type="video/mp4" />
-    </video>
-  );
-
-  useEffect(() => {
-    setRef(ref);
-    setControls(controls);
-  }, []);
-  return videoHTML;
 };
 
 const StyledVideo = styled(animated.div)`

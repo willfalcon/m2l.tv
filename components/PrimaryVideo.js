@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useVideo } from 'react-use';
 import { useRouter } from 'next/router';
@@ -6,22 +6,26 @@ import { useRouter } from 'next/router';
 import BigLabel from './BigLabel';
 import CatLabel from './CatLabel';
 import PlayButton from './PlayButton';
+import Video from './VideoModal/Video';
 
 import formatDuration from '../lib/formatDuration';
 import { media } from './theme';
 import useSiteContext from './SiteContext';
 import TagsList from './TagsList';
-import CountdownTimer from './CountdownTimer';
+import CountdownTimer from './VideoModal/CountdownTimer';
 
 const PrimaryVideo = props => {
   const { id, post_title, m2l_cat, video, post_name, tags } = props;
   const { setIsolate, toggleVideoModal } = useSiteContext();
 
-  const [videoHtml, state, controls, ref] = useVideo(
-    <video className="primary-video__video" width={video.width} height={video.height} controls poster={video.videopress.poster}>
-      <source src={video.videopress.original} type="video/mp4" />
-    </video>
-  );
+  // const [videoHtml, state, controls, ref] = useVideo(
+  //   <video className="primary-video__video" width={video.width} height={video.height} controls poster={video.videopress.poster}>
+  //     <source src={video.videopress.original} type="video/mp4" />
+  //   </video>
+  // );
+
+  const [controls, setControls] = useState();
+  const [ref, setRef] = useState();
 
   const router = useRouter();
 
@@ -47,8 +51,7 @@ const PrimaryVideo = props => {
 
       <div className="primary-video__video-container">
         <div className="primary-video__wrap">
-          {videoHtml}
-          <CountdownTimer controls={controls} videoRef={ref} name={post_title} />
+          <Video className="primary-video__video" setControls={setControls} setRef={setRef} isolate={props} />
         </div>
       </div>
     </PrimaryVideoContainer>

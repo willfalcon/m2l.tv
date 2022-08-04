@@ -71,7 +71,7 @@ const NavButton = styled.button`
     z-index: 0;
     position: absolute;
     transform: var(--angle);
-    transition: 0.4s;
+    transition: var(--duration);
     transition-timing-function: linear;
   }
 

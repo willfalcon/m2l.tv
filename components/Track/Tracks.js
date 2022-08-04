@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import VideoTrack from './VideoTrack';
-import VideoModal from '../VideoModal';
+import VideoModal from '../VideoModal/VideoModal';
 import HoverStates from '../TrackSlide/HoverStates';
 import { TrackContextProvider } from './TrackContext';
 
