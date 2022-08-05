@@ -67,9 +67,9 @@ const GlobalStyle = createGlobalStyle`
     animation-duration: 1s;
     animation-timing-function: initial;
     border-width: 4px;
-    border-top-color: ${({ theme }) => theme.yellow};
-    border-left-color: ${({ theme }) => theme.yellow};
-    border-bottom-color: ${({ theme }) => theme.yellow};
+    border-top-color: ${({ theme }) => theme.darkPurple};
+    border-left-color: ${({ theme }) => theme.darkPurple};
+    border-bottom-color: ${({ theme }) => theme.darkPurple};
     
   }
   }

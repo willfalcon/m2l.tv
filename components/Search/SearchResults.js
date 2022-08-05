@@ -1,15 +1,12 @@
 import React from 'react';
-import { useRouter } from 'next/router';
+
 import styled from 'styled-components';
 
-import useSiteContext from '../SiteContext';
 import Result from './Result';
 
 import { media } from '../theme';
 
 const SearchResults = ({ logoWidth, results, noResults, toggleSearch }) => {
-  const router = useRouter();
-  const { setIsolate, toggleVideoModal } = useSiteContext();
   return (
     <ResultsList logoWidth={logoWidth}>
       {noResults && <h3 className="no-results">No results found.</h3>}

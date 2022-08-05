@@ -5,6 +5,7 @@ import nProgress from 'nprogress';
 import { animated, useTransition } from 'react-spring';
 
 import { Backdrop } from '../Modal';
+import Loader from './Loader';
 import SearchResults from './SearchResults';
 import { media } from '../theme';
 
@@ -14,14 +15,15 @@ const Search = ({ search, toggleSearch, logoWidth }) => {
   const [results, setResults] = useState([]);
   const [noResults, setNoResults] = useState(false);
   const [loading, setLoading] = useState(false);
-  // TODO: add loading state
-  const [, cancel] = useDebounce(
+  useDebounce(
     async () => {
+      nProgress.start();
       setNoResults(false);
-      // setLoading(true);
+      setLoading(true);
       if (searchTerm) {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/wp-json/m2l-video/v1/search?term=${searchTerm}`);
         const data = await res.json();
+        console.log(data);
         //TODO: some results might show up for title and tag search and have duplicates in results
         if (data.length) {
           setResults(data);
@@ -73,7 +75,7 @@ const Search = ({ search, toggleSearch, logoWidth }) => {
             </SearchBar>
           )
       )}
-
+      <Loader loading={loading} />
       {results && search && <SearchResults logoWidth={logoWidth} results={results} noResults={noResults} toggleSearch={toggleSearch} />}
     </>
   );

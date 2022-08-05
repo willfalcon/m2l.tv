@@ -103,6 +103,7 @@ const SearchResult = styled.li`
     &__name {
       justify-self: start;
       font-size: 1.8rem;
+      text-align: left;
       ${media.break`
       font-size: 2.8rem;
       `}

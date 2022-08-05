@@ -1,26 +1,35 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { IoPlaySharp } from 'react-icons/io5';
 import classNames from 'classnames';
-import Link from 'next/link';
 import { animated } from 'react-spring';
 
-import spin from './spin';
 import useSpinEffect from '../lib/useSpinEffect';
 
 const PlayButton = ({ className, styles, onClick }) => {
   const [spin, handlers] = useSpinEffect(3);
 
-  return (
-    <ButtonStyles className={classNames('play-button', className)} style={{ ...spin, ...styles }} {...handlers} onClick={onClick}>
+  return onClick ? (
+    <Span className={classNames('play-button play-button--span', className)} style={{ ...spin, ...styles }} {...handlers}>
       <span>
         Play <IoPlaySharp />
       </span>
-    </ButtonStyles>
+    </Span>
+  ) : (
+    <Button
+      className={classNames('play-button play-button--button', className)}
+      style={{ ...spin, ...styles }}
+      {...handlers}
+      onClick={onClick}
+    >
+      <span>
+        Play <IoPlaySharp />
+      </span>
+    </Button>
   );
 };
 
-const ButtonStyles = styled(animated.button)`
+const ButtonStyles = css`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -65,5 +74,12 @@ const ButtonStyles = styled(animated.button)`
   :hover span {
     transform: scale(1.1);
   }
+`;
+
+const Button = styled(animated.button)`
+  ${ButtonStyles}
+`;
+const Span = styled(animated.span)`
+  ${ButtonStyles}
 `;
 export default PlayButton;
