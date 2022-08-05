@@ -10,14 +10,8 @@ const PlayButton = ({ className, styles, onClick }) => {
   const [spin, handlers] = useSpinEffect(3);
 
   return onClick ? (
-    <Span className={classNames('play-button play-button--span', className)} style={{ ...spin, ...styles }} {...handlers}>
-      <span>
-        Play <IoPlaySharp />
-      </span>
-    </Span>
-  ) : (
     <Button
-      className={classNames('play-button play-button--button', className)}
+      className={classNames('play-button play-button--span', className)}
       style={{ ...spin, ...styles }}
       {...handlers}
       onClick={onClick}
@@ -26,6 +20,12 @@ const PlayButton = ({ className, styles, onClick }) => {
         Play <IoPlaySharp />
       </span>
     </Button>
+  ) : (
+    <Span className={classNames('play-button play-button--button', className)} style={{ ...spin, ...styles }} {...handlers}>
+      <span>
+        Play <IoPlaySharp />
+      </span>
+    </Span>
   );
 };
 
