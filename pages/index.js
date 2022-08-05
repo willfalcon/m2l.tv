@@ -6,8 +6,8 @@ const Tracks = dynamic(() => import('../components/Track/Tracks'), {
   ssr: false,
 });
 
-const index = ({ topVideos, videoSlug }) => {
-  return <Tracks topVideos={topVideos} videoSlug={videoSlug} />;
+const index = ({ topVideos }) => {
+  return <Tracks topVideos={topVideos} />;
 };
 
 export default index;

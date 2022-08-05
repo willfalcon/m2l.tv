@@ -1,10 +1,10 @@
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
-import { useMeasure, useVideo } from 'react-use';
+import React from 'react';
+import { useVideo } from 'react-use';
 
 import CountdownTimer from './CountdownTimer';
 
-const Video = ({ className, setControls, setRef, isolate }) => {
+const Video = ({ className, isolate }) => {
   const { width, height, videopress } = isolate?.video;
 
   const [videoHTML, state, controls, ref] = useVideo(

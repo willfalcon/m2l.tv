@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { animated, useTransition } from 'react-spring';
-import { useMeasure, useVideo } from 'react-use';
+import { useMeasure } from 'react-use';
 import { useRouter } from 'next/router';
 
 import CloseButton from '../CloseButton';
-import CountdownTimer from './CountdownTimer';
 import CatLabel from '../CatLabel';
 import TagsList from '../TagsList';
 import Video from './Video';
@@ -17,6 +16,7 @@ import { media } from '../theme';
 
 const VideoModal = () => {
   const [wrapperRef, size] = useMeasure();
+
   const router = useRouter();
   const { isolate, videoModal, toggleVideoModal } = useSiteContext();
   const post_title = isolate?.post_title || '';
@@ -45,17 +45,12 @@ const VideoModal = () => {
     leave: { opacity: 0 },
   });
 
-  const [controls, setControls] = useState();
-  const [ref, setRef] = useState();
-
   return transition(
     (styles, item) =>
       item && (
         <StyledVideo className="single-video" style={styles} videosizes={videoSizes}>
           <div className="single-video__wrap" ref={wrapperRef}>
-            <div className="single-video__inner">
-              {!!size.width && <Video className="single-video__video" setControls={setControls} setRef={setRef} isolate={isolate} />}
-            </div>
+            <div className="single-video__inner">{!!size.width && <Video className="single-video__video" isolate={isolate} />}</div>
           </div>
           <div className="single-video__info">
             <div className="single-video__logo">

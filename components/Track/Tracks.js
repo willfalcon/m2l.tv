@@ -11,15 +11,15 @@ import useTracksData from './useTracksData';
 import useSiteContext from '../SiteContext';
 import mockHoverState from '../TrackSlide/mockHoverState';
 
-const Tracks = ({ topVideos, videoSlug }) => {
+const Tracks = ({ topVideos }) => {
   const [width, height, update] = useViewportSizes();
 
   useEffect(() => {
     update();
   }, []);
 
-  const { videos, favoriteVids, favsReady } = useTracksData(videoSlug);
-  const [hoverState, setHoverState] = useState([mockHoverState]);
+  const { videos, favoriteVids, favsReady } = useTracksData();
+  const [hoverState, setHoverState] = useState([]);
 
   const [tags, setTags] = useState(null);
 
@@ -51,7 +51,7 @@ const Tracks = ({ topVideos, videoSlug }) => {
         <VideoTrack key={track.term_id} {...track} triggerLoadTags={i >= videos.length - 2} />
       ))}
       {tags && tags.map(track => <VideoTrack key={track.term_id} {...track} />)}
-      <VideoModal />
+
       {width >= theme.sizes.break && <HoverStates />}
     </TrackContextProvider>
   );

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import useSiteContext from '../SiteContext';
 
-export default function useTracksData(videoSlug) {
+export default function useTracksData() {
   const [videos, setVideos] = useState([]);
   const [favoriteVids, setFavoriteVids] = useState([]);
 
-  const { setIsolate, toggleVideoModal, favorites } = useSiteContext();
+  const { favorites } = useSiteContext();
 
   useEffect(() => {
     async function getVideos() {
@@ -13,19 +13,6 @@ export default function useTracksData(videoSlug) {
       const data = await res.json();
 
       setVideos(data);
-
-      if (videoSlug) {
-        const openedVideo = videoSlug
-          ? data
-              .filter(cat => {
-                return cat.videos.some(video => video.post_name === videoSlug);
-              })[0]
-              .videos.find(video => video.post_name === videoSlug)
-          : null;
-
-        setIsolate(openedVideo);
-        toggleVideoModal(true);
-      }
     }
     getVideos();
   }, []);

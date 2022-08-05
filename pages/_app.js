@@ -17,13 +17,13 @@ Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangError', () => NProgress.done());
 
 function MyApp(props) {
-  const { Component, pageProps, topVideos, other, openedVideo, videoSlug, curriculumSlug, tagSlug } = props;
+  const { Component, pageProps, topVideos, other, curriculumSlug, tagSlug, openVideo } = props;
   const [isolate, setIsolate] = useState(null);
   const [videoModal, toggleVideoModal] = useState(false);
 
   useEffect(() => {
-    if (openedVideo) {
-      setIsolate(openedVideo);
+    if (openVideo) {
+      setIsolate(openVideo);
       toggleVideoModal(true);
     }
   }, []);
@@ -33,7 +33,7 @@ function MyApp(props) {
       <SiteContextProvider data={{ ...other, isolate, setIsolate, videoModal, toggleVideoModal, curriculumSlug, tagSlug }}>
         <Wrapper>
           <Main topVideos={topVideos} />
-          <Component {...pageProps} topVideos={topVideos} videoSlug={videoSlug} />
+          <Component {...pageProps} topVideos={topVideos} />
         </Wrapper>
       </SiteContextProvider>
     </ThemeProvider>
@@ -43,21 +43,20 @@ function MyApp(props) {
 MyApp.getInitialProps = async appContext => {
   const appProps = await App.getInitialProps(appContext);
 
-  //TODO this is called in client when we Link to any page with it, and API_BASE isn't accessible in browser, so maybe try an api route?
-
-  const dataRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/wp-json/m2l-video/v2/data`);
+  const videoSlug = appContext.ctx.query.video || null;
+  const dataRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/wp-json/m2l-video/v2/data?video=${videoSlug}`);
   const data = await dataRes.json();
 
-  const videoSlug = appContext.ctx.query.video || null;
   const curriculumSlug = appContext.ctx.query.curriculum || null;
   const tagSlug = appContext.ctx.query.tag || null;
+
   return {
     ...appProps,
     topVideos: shuffle(data.topVideos),
     other: data.other,
-    videoSlug,
     curriculumSlug,
     tagSlug,
+    openVideo: data.openVideo,
   };
 };
 
