@@ -24,6 +24,7 @@ const CloseButton = ({ className, onClick, style }) => {
       </Button>
     );
   }
+
   return (
     <Link href="/">
       <ButtonLink

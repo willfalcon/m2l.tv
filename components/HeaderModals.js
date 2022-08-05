@@ -7,6 +7,7 @@ import useSiteContext from './SiteContext';
 const HeaderModals = ({ about, works, toggleAbout, toggleWorks }) => {
   const { aboutContent, worksContent } = useSiteContext();
   const router = useRouter();
+
   return (
     <>
       <Modal

@@ -14,11 +14,13 @@ const Result = ({ id, post_name, video, post_title, m2l_cat, tags, toggleSearch 
   const { setIsolate, toggleVideoModal } = useSiteContext();
   const router = useRouter();
   const [hover, setHover] = useState(false);
+
   const playTransition = useTransition(hover, {
     from: { opacity: 0, transform: `translateX(-50%)` },
     enter: { opacity: 1, transform: `translateX(0%)` },
     leave: { opacity: 0, transform: `translateX(-50%)` },
   });
+
   return (
     <SearchResult className="result">
       <button

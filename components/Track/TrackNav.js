@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { HiArrowNarrowRight, HiArrowNarrowLeft } from 'react-icons/hi';
 import classNames from 'classnames';
 
-import spin from '../spin';
 import { media } from '../theme';
 import useSpinEffect from '../../lib/useSpinEffect';
 

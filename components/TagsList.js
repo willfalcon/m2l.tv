@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useDebounce } from 'react-use';
 import styled from 'styled-components';
+
 import useSiteContext from './SiteContext';
 
 const TagsList = ({ className, tags }) => {
@@ -10,7 +11,7 @@ const TagsList = ({ className, tags }) => {
   const { loadTags, loadingTags, toggleVideoModal } = useSiteContext();
 
   const [mouseover, setMouseover] = useState(false);
-  const [isReady, cancel] = useDebounce(
+  const [_, cancel] = useDebounce(
     () => {
       if (mouseover) {
         loadTags(true);

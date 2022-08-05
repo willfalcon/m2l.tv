@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import useSpinEffect from '../../lib/useSpinEffect';
 
 import BigPlayButton from './BigPlayButton';
+
+import useSpinEffect from '../../lib/useSpinEffect';
 
 const CountdownTimer = ({ controls, videoRef, name }) => {
   const [timer, setTimer] = useState(3);
@@ -51,7 +52,6 @@ const CountdownTimer = ({ controls, videoRef, name }) => {
   if (timer === 0) {
     return null;
   }
-
   return timerStarted ? (
     <Countdown className="countdown" style={spin}>
       <span>{timer}</span>

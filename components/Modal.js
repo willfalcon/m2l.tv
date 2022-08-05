@@ -18,10 +18,10 @@ const Modal = ({ children, onClose, className, open }) => {
     enter: { opacity: 0.85 },
     leave: { opacity: 0 },
   });
+
   return (
     <>
       {backdropTransition((styles, item) => item && <Backdrop style={styles} className={'modal-backdrop'} onClick={onClose} />)}
-
       {transition(
         (styles, item) =>
           item && (
@@ -66,31 +66,6 @@ const StyledModal = styled(animated.div)`
       top: 10px;
       right: 10px;
     }
-  }
-
-  &.enter {
-    opacity: 0;
-  }
-  &.enter-active {
-    opacity: 1;
-    /* z-index: 2; */
-  }
-  &.enter-done {
-    opacity: 1;
-  }
-  &.exit {
-    opacity: 1;
-  }
-  &.exit-active {
-    opacity: 0;
-    /* z-index: 1; */
-  }
-  &.exit-done {
-    opacity: 0;
-  }
-  &.enter-active,
-  &.exit-active {
-    transition: 0.5s;
   }
 `;
 

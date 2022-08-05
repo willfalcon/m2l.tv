@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { rgba } from 'polished';
 import styled from 'styled-components';
 
-import formatDuration from '../../lib/formatDuration';
 import useSiteContext from '../SiteContext';
 import { media } from '../theme';
 import useTrackContext from '../Track/TrackContext';
@@ -12,6 +11,7 @@ const TrackSlide = ({ id, video, post_title, post_name, m2l_cat, tags }) => {
   const router = useRouter();
   const { setIsolate, toggleVideoModal } = useSiteContext();
   const ref = useRef();
+
   const {
     setHoverState,
     viewportSizes: { width: viewportWidth },
@@ -94,17 +94,6 @@ const Button = styled.a`
       margin-left: auto;
     }
   }
-  /* :hover {
-    transform: scale(1.1) translateY(-30px);
-    background: ${({ theme }) => rgba(theme.black, 1)};
-    box-shadow: ${({ theme }) => theme.shadow};
-    position: absolute;
-    .slide-video {
-      &__content-wrap {
-        height: 100px;
-      }
-    }
-  } */
 `;
 
 export default TrackSlide;

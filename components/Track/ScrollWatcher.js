@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
+
 import useOnEnter from '../../lib/useOnEnter';
-import useSiteContext from '../SiteContext';
 
 const ScrollWatcher = ({ onEnter }) => {
   const ref = useOnEnter(onEnter);

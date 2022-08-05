@@ -2,9 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Header from './Header';
-
-import GlobalStyle from './GlobalStyle';
 import Meta from './Meta';
+import GlobalStyle from './GlobalStyle';
 
 const Wrapper = ({ children }) => {
   return (

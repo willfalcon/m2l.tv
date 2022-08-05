@@ -2,14 +2,15 @@ import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
-import useSiteContext from './SiteContext';
 
+import useSiteContext from './SiteContext';
 import useSpinEffect from '../lib/useSpinEffect';
 
 const CatLabel = ({ className, children, slug, style }) => {
   const router = useRouter();
   const { toggleVideoModal } = useSiteContext();
   const [spin, handlers] = useSpinEffect();
+
   return (
     <Label
       className={classNames('cat-label', className)}

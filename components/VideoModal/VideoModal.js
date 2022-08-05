@@ -5,10 +5,10 @@ import { animated, useTransition } from 'react-spring';
 import { useMeasure } from 'react-use';
 import { useRouter } from 'next/router';
 
+import Video from './Video';
 import CloseButton from '../CloseButton';
 import CatLabel from '../CatLabel';
 import TagsList from '../TagsList';
-import Video from './Video';
 
 import logo from '../../public/m2l-tv.png';
 import useSiteContext from '../SiteContext';

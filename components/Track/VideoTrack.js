@@ -7,14 +7,14 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import BigLabel from '../BigLabel';
 import TrackNav from './TrackNav';
 import TrackSlide from '../TrackSlide/TrackSlide';
+import ScrollWatcher from './ScrollWatcher';
 
 import { media } from '../theme';
-
-import 'swiper/css';
-import 'swiper/css/navigation';
 import useTrackContext from './TrackContext';
-import ScrollWatcher from './ScrollWatcher';
 import useSiteContext from '../SiteContext';
+
+import 'swiper/css/navigation';
+import 'swiper/css';
 
 const VideoTrack = ({ className, videos, label, description, name, slug, triggerLoadTags }) => {
   const [navDisabled, setNavDisabled] = useState([true, videos.length <= 3]);

@@ -1,13 +1,15 @@
+import React from 'react';
 import { useRouter } from 'next/router';
 import { lighten, rgba } from 'polished';
-import React from 'react';
-import { useTransition, animated } from 'react-spring';
+import { animated } from 'react-spring';
 import styled from 'styled-components';
-import formatDuration from '../../lib/formatDuration';
+
+import TagsList from '../TagsList';
 import AddButton from '../AddButton';
 import CatLabel from '../CatLabel';
+
+import formatDuration from '../../lib/formatDuration';
 import useSiteContext from '../SiteContext';
-import TagsList from '../TagsList';
 import useTrackContext from '../Track/TrackContext';
 import useHoverTransition from './useHoverTransition';
 
@@ -24,10 +26,11 @@ const HoverStates = () => {
   }
 
   return transitions((styles, item) => {
-    const { pos, post_title, scroll, id, video, m2l_cat, tags = [], post_name } = item;
+    const { post_title, id, video, m2l_cat, tags = [], post_name } = item;
     const favIndex = favorites.indexOf(id);
     const isFavorite = favIndex >= 0;
     const modalData = { id, video, post_title, post_name, m2l_cat, tags };
+
     return (
       <HoverBox
         className="hover-box"

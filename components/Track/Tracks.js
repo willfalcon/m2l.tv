@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 import VideoTrack from './VideoTrack';
-import VideoModal from '../VideoModal/VideoModal';
 import HoverStates from '../TrackSlide/HoverStates';
 import { TrackContextProvider } from './TrackContext';
 
+import useTracksData from './useTracksData';
 import useViewportSizes from '../../lib/useViewportSizes';
 import theme from '../theme';
-import useTracksData from './useTracksData';
 import useSiteContext from '../SiteContext';
-import mockHoverState from '../TrackSlide/mockHoverState';
 
 const Tracks = ({ topVideos }) => {
   const [width, height, update] = useViewportSizes();

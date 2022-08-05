@@ -23,8 +23,7 @@ const Search = ({ search, toggleSearch, logoWidth }) => {
       if (searchTerm) {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/wp-json/m2l-video/v1/search?term=${searchTerm}`);
         const data = await res.json();
-        console.log(data);
-        //TODO: some results might show up for title and tag search and have duplicates in results
+
         if (data.length) {
           setResults(data);
         } else {

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import styled from 'styled-components';
 
 import Result from './Result';
@@ -28,14 +27,15 @@ const ResultsList = styled.ul`
   left: 0;
   width: 100%;
 
-  ${media.break`
-  top: 81px;
-  left: ${({ logoWidth }) => logoWidth}px;
-  width: calc(100vw - ${({ logoWidth }) => logoWidth + 80 + 7}px);
-  `}
   display: grid;
   grid-template-rows: repeat(4, 1fr);
   grid-template-columns: 100%;
+
+  ${media.break`
+    top: 81px;
+    left: ${({ logoWidth }) => logoWidth}px;
+    width: calc(100vw - ${({ logoWidth }) => logoWidth + 80 + 7}px);
+  `}
 
   .no-results {
     padding: 0 2.1rem;
