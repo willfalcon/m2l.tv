@@ -16,6 +16,16 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangError', () => NProgress.done());
 
+const LogRocket = require('logrocket');
+const setupLogRocketReact = require('logrocket-react');
+
+// only initialize when in the browser
+if (typeof window !== 'undefined') {
+  LogRocket.init('app/id');
+  // plugins should also only be initialized when in the browser
+  setupLogRocketReact(LogRocket);
+}
+
 function MyApp(props) {
   const { Component, pageProps, topVideos, other, curriculumSlug, tagSlug, openVideo } = props;
   const [isolate, setIsolate] = useState(null);
