@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useDebounce } from 'react-use';
 import nProgress from 'nprogress';
@@ -40,10 +40,17 @@ const Search = ({ search, toggleSearch, logoWidth }) => {
     [searchTerm]
   );
 
+  const inputRef = useRef();
+
   const transition = useTransition(search, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
+    onRest: props => {
+      if (props.value.opacity === 1) {
+        inputRef.current.focus();
+      }
+    },
   });
 
   const backdropTransition = useTransition(search, {
@@ -70,6 +77,7 @@ const Search = ({ search, toggleSearch, logoWidth }) => {
                   setSearchTerm(e.target.value);
                 }}
                 placeholder="Search Here"
+                ref={inputRef}
               />
             </SearchBar>
           )
